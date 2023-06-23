@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Amministratore (
     version INT UNSIGNED NOT NULL DEFAULT 1,
     token VARCHAR(128) DEFAULT NULL,
     UNIQUE (email),
-    UNIQUE (telefono)
+    UNIQUE (cellulare)
 );
 
 -- AULA
