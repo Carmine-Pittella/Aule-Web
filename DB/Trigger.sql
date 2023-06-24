@@ -222,30 +222,88 @@ DELIMITER ;
 
 
 -- check che verifica se il nome_corso è specificato per le tipologie richieste (INSERT)
+DROP TRIGGER IF EXISTS check_nome_corso_insert;
 DELIMITER $$
-CREATE TRIGGER check_nome_corso_insert 
-BEFORE INSERT ON Tipologia_evento 
+CREATE TRIGGER check_nome_corso_insert
+BEFORE INSERT ON Evento
 FOR EACH ROW
 BEGIN
-    IF (NEW.tipologia = 'LEZIONE' OR NEW.tipologia = 'ESAME' OR NEW.tipologia = 'PARZIALE') AND NEW.nome_corso IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Per le tipologie (lezione, esame, parziale) devi inserire il nome del corso.';
+    IF NEW.tipologia IN ('LEZIONE', 'ESAME', 'PARZIALE') AND NEW.nome_corso IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Il nome del corso non può essere NULL per le tipologie LEZIONE, ESAME o PARZIALE';
     END IF;
-END$$
+END $$
 DELIMITER ;
 
+
 -- check che verifica se il nome_corso è specificato per le tipologie richieste (UPDATE)
+DROP TRIGGER IF EXISTS check_nome_corso_update;
 DELIMITER $$
 CREATE TRIGGER check_nome_corso_update
-BEFORE UPDATE ON Tipologia_evento
+BEFORE INSERT ON Evento
 FOR EACH ROW
 BEGIN
-    IF (NEW.tipologia = 'LEZIONE' OR NEW.tipologia = 'ESAME' OR NEW.tipologia = 'PARZIALE') AND NEW.nome_corso IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Per le tipologie (lezione, esame, parziale) devi inserire il nome del corso.';
+    IF NEW.tipologia IN ('LEZIONE', 'ESAME', 'PARZIALE') AND NEW.nome_corso IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Il nome del corso non può essere NULL per le tipologie LEZIONE, ESAME o PARZIALE';
     END IF;
-END$$
+END $$
 DELIMITER ;
 
 
 -- ******************************************************************** --
+
+
+-- check impostazione corretta degli attributi tipo_ricorrenza e data_fine_ricorrenza (INSERT)
+DROP TRIGGER IF EXISTS check_data_fine_ricorrenza_insert;
+DELIMITER $$
+CREATE TRIGGER check_data_fine_ricorrenza_insert 
+BEFORE INSERT ON Evento
+FOR EACH ROW
+BEGIN
+    IF NEW.tipo_ricorrenza IS NOT NULL AND NEW.data_fine_ricorrenza IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Se imposti il tipo di ricorrenza, devi impostare anche la data di fine ricorrenza';
+    END IF;
+END $$
+DELIMITER ;
+
+-- check impostazione corretta degli attributi tipo_ricorrenza e data_fine_ricorrenza (UPDATE)
+DROP TRIGGER IF EXISTS check_data_fine_ricorrenza_update;
+DELIMITER $$
+CREATE TRIGGER check_data_fine_ricorrenza_update 
+BEFORE INSERT ON Evento
+FOR EACH ROW
+BEGIN
+    IF NEW.tipo_ricorrenza IS NOT NULL AND NEW.data_fine_ricorrenza IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Se imposti il tipo di ricorrenza, devi impostare anche la data di fine ricorrenza';
+    END IF;
+END $$
+DELIMITER ;
+
+
+-- ******************************************************************** --
+
+
+-- check data_fine_ricorrenza successiva alla data di inizio (INSERT)
+DROP TRIGGER IF EXISTS check_data_fine_ricorrenza_post_data_inizio_insert;
+DELIMITER $$
+CREATE TRIGGER check_data_fine_ricorrenza_post_data_inizio_insert
+BEFORE INSERT ON Evento
+FOR EACH ROW
+BEGIN
+    IF NEW.data_fine_ricorrenza IS NOT NULL AND NEW.data_fine_ricorrenza <= DATE_ADD(NEW.data_inizio, INTERVAL 1 DAY) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La data di fine ricorrenza deve essere successiva alla data di inizio di almeno un giorno';
+    END IF;
+END $$
+DELIMITER ;
+
+-- check data_fine_ricorrenza successiva alla data di inizio (UPDATE)
+DROP TRIGGER IF EXISTS check_data_fine_ricorrenza_post_data_inizio_update;
+DELIMITER $$
+CREATE TRIGGER check_data_fine_ricorrenza_post_data_inizio_update
+BEFORE UPDATE ON Evento
+FOR EACH ROW
+BEGIN
+    IF NEW.data_fine_ricorrenza IS NOT NULL AND NEW.data_fine_ricorrenza <= DATE_ADD(NEW.data_inizio, INTERVAL 1 DAY) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La data di fine ricorrenza deve essere successiva alla data di inizio di almeno un giorno';
+    END IF;
+END $$
+DELIMITER ;
