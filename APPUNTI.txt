@@ -66,6 +66,6 @@ mediante SHA 512, che ritorna un digest di 128 caratteri
 
 Trigger che chiama la procedura genera_eventi con cui si genera
 tutta la serie di eventi ricorrenti associati all'evento "master"
-che è stato appena modificato nella tabella evento, ovviamente il 
+che è stato appena modificato nella tabella evento, ovviamente il ---------------
 trigger si attiva ma non effettua nessuna azione nel caso in cui
 sia stato appena mdoficato un evento "semplice".
