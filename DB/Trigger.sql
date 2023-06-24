@@ -1,8 +1,8 @@
 
 
 -- check validità data_inizio di un Evento (INSERT)
-DELIMITER $$
 DROP TRIGGER IF EXISTS valida_data_inizio_evento_insert;
+DELIMITER $$
 CREATE TRIGGER valida_data_inizio_evento_insert
 BEFORE INSERT ON Evento
 FOR EACH ROW
@@ -32,8 +32,8 @@ DELIMITER ;
 
 
 -- check validità data_fine di un Evento (INSERT)
-DELIMITER $$
 DROP TRIGGER IF EXISTS valida_data_fine_evento_insert;
+DELIMITER $$
 CREATE TRIGGER valida_data_fine_evento_insert
 BEFORE INSERT ON Evento
 FOR EACH ROW
@@ -68,8 +68,8 @@ DELIMITER ;
 
 
 -- check orario con intervallo di 15 minuti (INSERT)
-DELIMITER $$
 DROP TRIGGER IF EXISTS valida_orario_evento_insert;
+DELIMITER $$
 CREATE TRIGGER valida_orario_evento_insert
 BEFORE INSERT ON Evento
 FOR EACH ROW
@@ -98,8 +98,8 @@ DELIMITER ;
 
 
 -- check disponibilità aula per creazione di un evento (INSERT)
-DELIMITER $$
 DROP TRIGGER IF EXISTS verifica_disponibilita_aula_insert;
+DELIMITER $$
 CREATE TRIGGER verifica_disponibilita_aula_insert
 BEFORE INSERT ON Evento
 FOR EACH ROW
@@ -142,8 +142,8 @@ END $$
 DELIMITER ;
 
 -- check disponibilità aula per creazione di un evento (UPDATE)
-DELIMITER $$
 DROP TRIGGER IF EXISTS verifica_disponibilita_aula_update;
+DELIMITER $$
 CREATE TRIGGER verifica_disponibilita_aula_update
 BEFORE UPDATE ON Evento
 FOR EACH ROW
