@@ -221,6 +221,31 @@ DELIMITER ;
 -- ******************************************************************** --
 
 
+-- check che verifica se il nome_corso è specificato per le tipologie richieste (INSERT)
+DELIMITER $$
+CREATE TRIGGER check_nome_corso_insert 
+BEFORE INSERT ON Tipologia_evento 
+FOR EACH ROW
+BEGIN
+    IF (NEW.tipologia = 'LEZIONE' OR NEW.tipologia = 'ESAME' OR NEW.tipologia = 'PARZIALE') AND NEW.nome_corso IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Per le tipologie (lezione, esame, parziale) devi inserire il nome del corso.';
+    END IF;
+END$$
+DELIMITER ;
+
+-- check che verifica se il nome_corso è specificato per le tipologie richieste (UPDATE)
+DELIMITER $$
+CREATE TRIGGER check_nome_corso_update
+BEFORE UPDATE ON Tipologia_evento
+FOR EACH ROW
+BEGIN
+    IF (NEW.tipologia = 'LEZIONE' OR NEW.tipologia = 'ESAME' OR NEW.tipologia = 'PARZIALE') AND NEW.nome_corso IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Per le tipologie (lezione, esame, parziale) devi inserire il nome del corso.';
+    END IF;
+END$$
+DELIMITER ;
 
 
-
+-- ******************************************************************** --
