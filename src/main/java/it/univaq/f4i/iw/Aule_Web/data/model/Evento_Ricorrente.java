@@ -15,14 +15,14 @@ public interface Evento_Ricorrente {
 
     LocalDateTime getDataFine();
 
-    Integer getIdMaster();
+    Evento getEventoMaster();
 
     // SET
     void setDataInizio(LocalDateTime data_inizio);
 
     void setDataFine(LocalDateTime data_fine);
 
-    void setIdMaster(Integer id_master);
+    void setEventoMaster(Evento evento_master);
 
     // METODI
 

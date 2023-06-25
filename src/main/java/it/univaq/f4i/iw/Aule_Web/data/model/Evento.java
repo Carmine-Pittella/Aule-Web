@@ -28,7 +28,7 @@ public interface Evento {
 
     String getEmailResponsabile();
 
-    Integer getIdAula();
+    Aula getAula();
 
     TipologiaEvento getTipologiaEvento();
 
@@ -49,7 +49,7 @@ public interface Evento {
 
     void setEmailResponsabile(String email_responsabile);
 
-    void setIdAula(Integer id_aula);
+    void setAula(Aula aula);
 
     void setTipologiaEvento(TipologiaEvento tipologia_evento);
 

@@ -23,11 +23,11 @@ public interface Aula {
 
     Integer getN_PreseRete();
 
-    String getN_PreseElettriche();
+    Integer getN_PreseElettriche();
 
     String getNote();
 
-    Integer getIdGruppo();
+    Gruppo getGruppo();
 
     // SET
     void setNome(String nome);
@@ -48,7 +48,7 @@ public interface Aula {
 
     void setNote(String note);
 
-    void setIdGruppo(Integer id_gruppo);
+    void setGruppo(Gruppo gruppo);
 
     // METODI
 
