@@ -1,13 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package it.univaq.f4i.iw.Aule_Web.data.model;
 
 /**
  *
  * @author Carmine
  */
-public class Gruppo {
-    
+
+public interface Gruppo {
+
+    // GET
+    String getNome();
+
+    String getDescrizione();
+
+    // SET
+    void setNome(String nome);
+
+    void setDescrizione(String descrizione);
+
+    // METODI
+
 }

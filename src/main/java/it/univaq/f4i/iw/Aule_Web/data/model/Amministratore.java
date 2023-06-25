@@ -1,13 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package it.univaq.f4i.iw.Aule_Web.data.model;
 
 /**
  *
  * @author Carmine
  */
-public class Amministratore {
-    
+
+public interface Amministratore {
+
+    // GET
+    String getNome();
+
+    String getCognome();
+
+    String getEmail();
+
+    String getPassword();
+
+    // SET
+    void setNome(String nome);
+
+    void setCognome(String cognome);
+
+    void setEmail(String email);
+
+    void setPassword(String password);
+
+    // METODI
+
 }

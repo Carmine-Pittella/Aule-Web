@@ -1,13 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package it.univaq.f4i.iw.Aule_Web.data.model;
 
 /**
  *
  * @author Carmine
  */
-public class Attrezzatura {
-    
+
+public interface Attrezzatura {
+
+    // GET
+    String getNomeAttrezzo();
+
+    String getDescrizione();
+
+    // SET
+    void setNomeAttrezzo(String nome_attrezzo);
+
+    void setDescrizione(String descrizione);
+
+    // METODI
+
 }

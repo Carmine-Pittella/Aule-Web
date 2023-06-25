@@ -32,9 +32,6 @@ CREATE TABLE IF NOT EXISTS Amministratore (
     cognome VARCHAR(64) NOT NULL,
     email VARCHAR(128) NOT NULL,
     password VARCHAR(64) NOT NULL,
-    -- version e token da capire a cosa servono
-    version INT UNSIGNED NOT NULL DEFAULT 1,
-    token VARCHAR(128) DEFAULT NULL,
     UNIQUE (email)
 );
 
@@ -43,7 +40,6 @@ CREATE TABLE IF NOT EXISTS Gruppo (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(64) NOT NULL,
     descrizione VARCHAR(255) DEFAULT NULL,
-    version INT unsigned NOT NULL DEFAULT 1,
     UNIQUE (nome)
 );
 
@@ -60,8 +56,6 @@ CREATE TABLE IF NOT EXISTS Aula (
     n_prese_elettriche INT NOT NULL,
     note VARCHAR(255) NOT NULL,
     id_gruppo INT NOT NULL,
-    -- a che cosa serve "version" ?
-    version INT unsigned NOT NULL DEFAULT 1,
     UNIQUE (nome, luogo, edificio, piano),
     FOREIGN KEY (id_gruppo) REFERENCES Gruppo(id)
         ON DELETE CASCADE ON UPDATE CASCADE
@@ -101,8 +95,6 @@ CREATE TABLE IF NOT EXISTS Evento (
     nome_corso VARCHAR(50) DEFAULT NULL,
     tipo_ricorrenza ENUM('GIORNALIERA', 'SETTIMANALE', 'MENSILE') DEFAULT NULL,
     data_fine_ricorrenza date DEFAULT NULL,
-    -- a che cosa serve "version" ?
-    version INT unsigned NOT NULL DEFAULT 1,
     UNIQUE (data_inizio, data_fine, nome, id_aula),
     FOREIGN KEY (id_aula) REFERENCES Aula(id)
         ON DELETE CASCADE ON UPDATE CASCADE
@@ -114,8 +106,6 @@ CREATE TABLE IF NOT EXISTS Evento_Ricorrente (
     data_inizio DATETIME NOT NULL,
     data_fine DATETIME NOT NULL,
     id_master INT NOT NULL,
-    -- a che cosa serve "version" ?
-    version INT unsigned NOT NULL DEFAULT 1,
     FOREIGN KEY (id_master) REFERENCES Evento(id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );

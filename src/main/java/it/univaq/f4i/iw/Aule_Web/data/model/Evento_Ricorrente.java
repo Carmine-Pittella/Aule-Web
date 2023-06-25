@@ -1,13 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package it.univaq.f4i.iw.Aule_Web.data.model;
+
+import java.time.LocalDateTime;
 
 /**
  *
  * @author Carmine
  */
-public class Evento_Ricorrente {
-    
+
+public interface Evento_Ricorrente {
+
+    // GET
+    LocalDateTime getDataInizio();
+
+    LocalDateTime getDataFine();
+
+    Integer getIdMaster();
+
+    // SET
+    void setDataInizio(LocalDateTime data_inizio);
+
+    void setDataFine(LocalDateTime data_fine);
+
+    void setIdMaster(Integer id_master);
+
+    // METODI
+
 }
