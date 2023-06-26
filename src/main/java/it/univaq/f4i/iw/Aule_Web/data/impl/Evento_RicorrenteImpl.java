@@ -5,13 +5,14 @@ import java.time.LocalDateTime;
 
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento_Ricorrente;
+import it.univaq.f4i.iw.framework.data.DataItemImpl;
 
 /**
  *
  * @author Carmine
  */
 
-public class Evento_RicorrenteImpl implements Evento_Ricorrente {
+public class Evento_RicorrenteImpl extends DataItemImpl<Integer> implements Evento_Ricorrente {
 
     private LocalDateTime data_inizio;
     private LocalDateTime data_fine;

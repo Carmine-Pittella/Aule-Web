@@ -2,13 +2,14 @@
 package it.univaq.f4i.iw.Aule_Web.data.impl;
 
 import it.univaq.f4i.iw.Aule_Web.data.model.Amministratore;
+import it.univaq.f4i.iw.framework.data.DataItemImpl;
 
 /**
  *
  * @author Carmine
  */
 
-public class AmministratoreImpl implements Amministratore {
+public class AmministratoreImpl extends DataItemImpl<Integer> implements Amministratore {
 
     private String nome;
     private String cognome;

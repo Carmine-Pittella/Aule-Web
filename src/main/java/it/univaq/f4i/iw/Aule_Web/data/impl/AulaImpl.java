@@ -3,13 +3,14 @@ package it.univaq.f4i.iw.Aule_Web.data.impl;
 
 import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
 import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
+import it.univaq.f4i.iw.framework.data.DataItemImpl;
 
 /**
  *
  * @author Carmine
  */
 
-public class AulaImpl implements Aula {
+public class AulaImpl extends DataItemImpl<Integer> implements Aula {
 
     private String nome;
     private String luogo;

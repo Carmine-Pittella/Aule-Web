@@ -6,13 +6,14 @@ import java.time.LocalDateTime;
 
 import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
+import it.univaq.f4i.iw.framework.data.DataItemImpl;
 
 /**
  *
  * @author Carmine
  */
 
-public class EventoImpl implements Evento {
+public class EventoImpl extends DataItemImpl<Integer> implements Evento {
 
     private LocalDateTime data_inizio;
     private LocalDateTime data_fine;

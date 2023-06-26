@@ -4,13 +4,14 @@ package it.univaq.f4i.iw.Aule_Web.data.impl;
 import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura;
 import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura_Relazione;
 import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
+import it.univaq.f4i.iw.framework.data.DataItemImpl;
 
 /**
  *
  * @author Carmine
  */
 
-public class Attrezzatura_RelazioneImpl implements Attrezzatura_Relazione {
+public class Attrezzatura_RelazioneImpl extends DataItemImpl<Integer> implements Attrezzatura_Relazione {
 
     private Aula aula;
     private Attrezzatura attrezzo;
