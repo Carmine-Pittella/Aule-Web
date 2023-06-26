@@ -9,13 +9,14 @@ import java.time.LocalDateTime;
 
 import it.univaq.f4i.iw.Aule_Web.data.impl.TipologiaEvento;
 import it.univaq.f4i.iw.Aule_Web.data.impl.TipologiaRicorrenza;
+import it.univaq.f4i.iw.framework.data.DataItem;
 
 /**
  *
  * @author Carmine
  */
 
-public interface Evento {
+public interface Evento extends DataItem<Integer> {
 
     // GET
     LocalDateTime getDataInizio();

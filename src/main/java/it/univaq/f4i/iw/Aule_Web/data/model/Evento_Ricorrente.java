@@ -3,12 +3,14 @@ package it.univaq.f4i.iw.Aule_Web.data.model;
 
 import java.time.LocalDateTime;
 
+import it.univaq.f4i.iw.framework.data.DataItem;
+
 /**
  *
  * @author Carmine
  */
 
-public interface Evento_Ricorrente {
+public interface Evento_Ricorrente extends DataItem<Integer> {
 
     // GET
     LocalDateTime getDataInizio();

@@ -1,12 +1,14 @@
 
 package it.univaq.f4i.iw.Aule_Web.data.model;
 
+import it.univaq.f4i.iw.framework.data.DataItem;
+
 /**
  *
  * @author Carmine
  */
 
-public interface Aula {
+public interface Aula extends DataItem<Integer> {
 
     // GET
     String getNome();
