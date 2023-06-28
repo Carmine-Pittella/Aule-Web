@@ -1,13 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package it.univaq.f4i.iw.Aule_Web.data.dao;
+
+import it.univaq.f4i.iw.Aule_Web.data.model.Amministratore;
+import it.univaq.f4i.iw.framework.data.DataException;
 
 /**
  *
  * @author Carmine
  */
-public class AmministratoreDao {
-    
+
+public interface AmministratoreDao {
+
+    Amministratore createAmministratore();
+
+    Amministratore getAmministratore(int amministratore_key) throws DataException;
+
+    Amministratore getAmministratoreByEmail(String email) throws DataException;
+
+    void storeAmministratore(Amministratore amministratore) throws DataException;
+
+    void deleteAmministratore(Amministratore amministratore) throws DataException;
+
 }
