@@ -4,9 +4,17 @@
         <servlet-name>NewServlet</servlet-name>
         <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.NewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TemplateServlet</servlet-name>
+        <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.TemplateServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TemplateServlet</servlet-name>
+        <url-pattern>/TemplateServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -14,6 +22,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>NewServlet</welcome-file>
+        <welcome-file>TemplateServlet</welcome-file>
     </welcome-file-list>
 </web-app>
