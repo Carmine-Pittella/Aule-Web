@@ -1,6 +1,16 @@
 --
 -- Database: auleweb
 --
+DROP DATABASE IF EXISTS aule_web;
+CREATE DATABASE aule_web;
+
+DROP USER IF EXISTS 'aule_website'@'localhost';
+CREATE USER 'aule_website'@'localhost' IDENTIFIED BY 'aule_webpass';
+GRANT ALL ON `aule_web`.* TO 'aule_website'@'localhost';
+
+USE aule_web;
+
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -14,14 +24,6 @@ DROP TABLE IF EXISTS Attrezzatura;
 DROP TABLE IF EXISTS Attrezzatura_Relazione;
 DROP TABLE IF EXISTS Evento;
 DROP TABLE IF EXISTS Evento_Ricorrente;
-
-
-
--- DROP USER IF EXISTS 'aulewebsite'@'localhost';
--- CREATE USER 'aulewebsite'@'localhost' IDENTIFIED BY 'aulewebpass';
--- GRANT ALL ON auleweb.* TO 'aulewebsite'@'localhost';
--- (non so se sono fondamentali per il funzionamento dell'app)
-
 
 
 
