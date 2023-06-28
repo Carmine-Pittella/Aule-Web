@@ -1,6 +1,8 @@
 
 package it.univaq.f4i.iw.Aule_Web.data.model;
 
+import java.util.List;
+
 import it.univaq.f4i.iw.framework.data.DataItem;
 
 /**
@@ -31,6 +33,8 @@ public interface Aula extends DataItem<Integer> {
 
     Gruppo getGruppo();
 
+    List<Evento> getEventi();
+
     // SET
     void setNome(String nome);
 
@@ -51,6 +55,8 @@ public interface Aula extends DataItem<Integer> {
     void setNote(String note);
 
     void setGruppo(Gruppo gruppo);
+
+    void setListaEventi(List<Evento> listaEventi);
 
     // METODI
 

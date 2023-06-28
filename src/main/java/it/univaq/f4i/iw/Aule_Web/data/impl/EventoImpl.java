@@ -26,6 +26,21 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     private TipologiaRicorrenza tipologia_ricorrenza;
     private LocalDate data_fine_ricorrenza;
 
+    // devo metterlo perché se chiamo "new EventoImpl" e faccio i set, gli attributi
+    // non sono inizializzati
+    public EventoImpl() {
+        this.data_inizio = null;
+        this.data_fine = null;
+        this.nome = "";
+        this.descrizione = "";
+        this.email_responsabile = "";
+        this.aula = null;
+        this.tipologia_evento = null;
+        this.nome_corso = "";
+        this.tipologia_ricorrenza = null;
+        this.data_fine_ricorrenza = null;
+    }
+
     // GET
     @Override
     public LocalDateTime getDataInizio() {

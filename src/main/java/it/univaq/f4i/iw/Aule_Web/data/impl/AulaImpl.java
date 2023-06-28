@@ -1,7 +1,10 @@
 
 package it.univaq.f4i.iw.Aule_Web.data.impl;
 
+import java.util.List;
+
 import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
+import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
 import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
 import it.univaq.f4i.iw.framework.data.DataItemImpl;
 
@@ -22,6 +25,7 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
     private Integer n_prese_elettriche;
     private String note;
     private Gruppo gruppo;
+    private List<Evento> eventi;
 
     // GET
     @Override
@@ -74,6 +78,11 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
         return gruppo;
     }
 
+    @Override
+    public List<Evento> getEventi() {
+        return eventi;
+    }
+
     // SET
     @Override
     public void setNome(String nome) {
@@ -123,6 +132,11 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
     @Override
     public void setGruppo(Gruppo gruppo) {
         this.gruppo = gruppo;
+    }
+
+    @Override
+    public void setListaEventi(List<Evento> listaEventi) {
+        this.eventi = listaEventi;
     }
 
     // METODI
