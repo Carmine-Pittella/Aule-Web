@@ -35,6 +35,8 @@ public interface Aula extends DataItem<Integer> {
 
     List<Evento> getEventi();
 
+    List<Attrezzatura_Relazione> getListaAttrezzatura();
+
     // SET
     void setNome(String nome);
 
@@ -57,6 +59,8 @@ public interface Aula extends DataItem<Integer> {
     void setGruppo(Gruppo gruppo);
 
     void setListaEventi(List<Evento> listaEventi);
+
+    void setListaAttrezzatura(List<Attrezzatura_Relazione> listaAttrezzatura);
 
     // METODI
 

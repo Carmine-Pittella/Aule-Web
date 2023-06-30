@@ -34,7 +34,7 @@ public class AmministratoreDaoMySQL extends DAO implements AmministratoreDao {
             selectAdminById = connection.prepareStatement("SELECT * FROM amministratore WHERE Id = ?");
             selectAdminByEmail = connection.prepareStatement("SELECT * FROM amministratore WHERE email = ?");
             insertAdmin = connection.prepareStatement(
-                    "INSERT INTO amministratore (nome,cognome,email,password,telefono) VALUES(?,?,?,?,?)",
+                    "INSERT INTO amministratore (nome, cognome, email, password, version) VALUES(?,?,?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
             updateAdmin = connection.prepareStatement(
                     "UPDATE amministratore SET nome=?, cognome=?, email=?, password=?, version=? WHERE ID=? and version=?");

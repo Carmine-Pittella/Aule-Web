@@ -4,6 +4,7 @@ package it.univaq.f4i.iw.Aule_Web.data.proxy;
 import java.util.List;
 
 import it.univaq.f4i.iw.Aule_Web.data.impl.AulaImpl;
+import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura_Relazione;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
 import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
 import it.univaq.f4i.iw.framework.data.DataItemProxy;
@@ -89,6 +90,11 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
         return super.getPiano();
     }
 
+    @Override
+    public List<Attrezzatura_Relazione> getListaAttrezzatura() {
+        return super.getListaAttrezzatura();
+    }
+
     // SET
     @Override
     public void setCapienza(Integer capienza) {
@@ -153,6 +159,12 @@ public class AulaProxy extends AulaImpl implements DataItemProxy {
     @Override
     public void setPiano(Integer piano) {
         super.setPiano(piano);
+        this.modified = true;
+    }
+
+    @Override
+    public void setListaAttrezzatura(List<Attrezzatura_Relazione> listaAttrezzatura) {
+        super.setListaAttrezzatura(listaAttrezzatura);
         this.modified = true;
     }
 
