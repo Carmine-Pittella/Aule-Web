@@ -3,7 +3,9 @@ package it.univaq.f4i.iw.Aule_Web.data.dao;
 
 import java.util.List;
 
+import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura;
 import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura_Relazione;
+import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
 import it.univaq.f4i.iw.framework.data.DataException;
 
 /**
@@ -21,8 +23,10 @@ public interface AttrezzaturaRelazioneDao {
 
     Attrezzatura_Relazione getAttrezzaturaRelazioneById(int attrezzatura_relazione_key) throws DataException;
 
-    List<Attrezzatura_Relazione> getListaAttrezzaturaByAula() throws DataException;
+    List<Attrezzatura_Relazione> getListaAttrezzaturaRelazione() throws DataException;
 
-    List<Attrezzatura_Relazione> getListaAulaByAttrezzatura() throws DataException;
+    List<Attrezzatura> getListaAttrezzaturaByAula(int aula_key) throws DataException;
+
+    List<Aula> getListaAulaByAttrezzatura(int attrezzatura_key) throws DataException;
 
 }
