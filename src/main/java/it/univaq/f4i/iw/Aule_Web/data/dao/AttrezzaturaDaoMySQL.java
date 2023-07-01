@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura;
+import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
 import it.univaq.f4i.iw.Aule_Web.data.proxy.AttrezzaturaProxy;
 import it.univaq.f4i.iw.framework.data.DAO;
 import it.univaq.f4i.iw.framework.data.DataException;
@@ -26,7 +27,7 @@ import it.univaq.f4i.iw.framework.data.OptimisticLockException;
 public class AttrezzaturaDaoMySQL extends DAO implements AttrezzaturaDao {
 
     private PreparedStatement selectAttrezzaturaById, insertAttrezzatura, updateAttrezzatura, deleteAttrezzaturabyId,
-            selectIdAttrezzatura;
+            selectIdAttrezzatura, selectAttrezzaturaByAula;
 
     public AttrezzaturaDaoMySQL(DataLayer d) {
         super(d);
@@ -37,9 +38,12 @@ public class AttrezzaturaDaoMySQL extends DAO implements AttrezzaturaDao {
         try {
             super.init();
             selectAttrezzaturaById = connection.prepareStatement("SELECT * FROM attrezzatura WHERE id = ?");
+            selectAttrezzaturaByAula = connection
+                    .prepareStatement("SELECT ID AS attrezzaturaID FROM attrezzatura WHERE ID_aula=?");
             insertAttrezzatura = connection.prepareStatement(
                     "INSERT INTO attrezzatura (nome_attrezzo, descrizione, version) VALUES (?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
+
             updateAttrezzatura = connection
                     .prepareStatement("UPDATE attrezzatura SET nome_attrezzo=?, descrizione=?, version=? WHERE Id=?");
             deleteAttrezzaturabyId = connection.prepareStatement("DELETE FROM attrezzatura WHERE Id=?");
@@ -54,6 +58,7 @@ public class AttrezzaturaDaoMySQL extends DAO implements AttrezzaturaDao {
     public void destroy() throws DataException {
         try {
             selectAttrezzaturaById.close();
+            selectAttrezzaturaByAula.close();
             insertAttrezzatura.close();
             updateAttrezzatura.close();
             deleteAttrezzaturabyId.close();
@@ -116,6 +121,21 @@ public class AttrezzaturaDaoMySQL extends DAO implements AttrezzaturaDao {
             throw new DataException("Errore in getListaAttrezzatura() ", e);
         }
         return listaAttrezzatura;
+    }
+
+    public List<Attrezzatura> getListaAttrezzaturaByAula(Aula aula) throws DataException {
+        List<Attrezzatura> result = new ArrayList<Attrezzatura>();
+        try {
+            selectAttrezzaturaByAula.setInt(1, aula.getKey());
+            try (ResultSet rs = selectAttrezzaturaByAula.executeQuery()) {
+                while (rs.next()) {
+                    result.add((Attrezzatura) getAttrezzaturaById(rs.getInt("idAttrezzatura")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Errore in getListaAttrezzaturaByAula()", ex);
+        }
+        return result;
     }
 
     // funziona sia da insert che da update

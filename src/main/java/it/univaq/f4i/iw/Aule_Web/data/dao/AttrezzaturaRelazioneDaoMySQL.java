@@ -128,13 +128,13 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
     }
 
     @Override
-    public List<Attrezzatura> getListaAttrezzaturaByAula(int aula_key) throws DataException {
-        List<Attrezzatura> listaAttrezzatura = new ArrayList<Attrezzatura>();
+    public List<Attrezzatura_Relazione> getListaAttrezzaturaByAula(Aula aula) throws DataException {
+        List<Attrezzatura_Relazione> listaAttrezzatura = new ArrayList<Attrezzatura_Relazione>();
         try {
             List<Attrezzatura_Relazione> listaCompleta = getListaAttrezzaturaRelazione();
             for (int i = 0; i < listaCompleta.size(); i++) {
-                if (listaCompleta.get(i).getAula().getKey() == aula_key) {
-                    listaAttrezzatura.add(listaCompleta.get(i).getAttrezzo());
+                if (listaCompleta.get(i).getAula().getKey() == aula.getKey()) {
+                    listaAttrezzatura.add(listaCompleta.get(i));
                 }
             }
         } catch (Exception e) {
@@ -144,13 +144,13 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
     }
 
     @Override
-    public List<Aula> getListaAulaByAttrezzatura(int attrezzatura_key) throws DataException {
-        List<Aula> listaAula = new ArrayList<Aula>();
+    public List<Attrezzatura_Relazione> getListaAulaByAttrezzatura(int attrezzatura_key) throws DataException {
+        List<Attrezzatura_Relazione> listaAula = new ArrayList<Attrezzatura_Relazione>();
         try {
             List<Attrezzatura_Relazione> listaCompleta = getListaAttrezzaturaRelazione();
             for (int i = 0; i < listaCompleta.size(); i++) {
                 if (listaCompleta.get(i).getAttrezzo().getKey() == attrezzatura_key) {
-                    listaAula.add(listaCompleta.get(i).getAula());
+                    listaAula.add(listaCompleta.get(i));
                 }
             }
         } catch (Exception e) {

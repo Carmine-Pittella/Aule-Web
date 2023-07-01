@@ -40,9 +40,17 @@
         <servlet-name>HomePageServlet</servlet-name>
         <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.HomePageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>lallero</servlet-name>
+        <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.lallero</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomePageServlet</servlet-name>
         <url-pattern>/HomePageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>lallero</servlet-name>
+        <url-pattern>/lallero</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -52,4 +60,10 @@
     <welcome-file-list>
         <welcome-file>HomePageServlet</welcome-file>
     </welcome-file-list>
+    <resource-ref>
+        <res-ref-name>jdbc/aule_web</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
 </web-app>

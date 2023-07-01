@@ -17,9 +17,10 @@ public class HomePageServlet extends AuleWebBaseController {
 
     private void action_default(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, TemplateManagerException {
+        System.out.println("ciao come stai");
         try {
             TemplateResult res = new TemplateResult(getServletContext());
-            res.activate("AllTemplateElement.ftl.html", request, response);
+            res.activate("index.ftl.html", request, response);
         } catch (Exception e) {
             handleError("Data access exception: " + e.getMessage(), request, response);
         }
@@ -28,12 +29,12 @@ public class HomePageServlet extends AuleWebBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        System.out.println("ciao come stai");
         try {
             action_default(request, response);
         } catch (Exception e) {
             handleError("Data access exception: " + e.getMessage(), request, response);
         }
-
     }
 
 }
