@@ -26,6 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -42,6 +43,9 @@ public class TemplateResult {
     protected ServletContext context;
     protected Configuration cfg;
     protected List<DataModelFiller> fillers;
+
+    // templates in cui visualizzare la navbarAdmin
+    private final List<String> tplsNavAdmin = Arrays.asList("admin.ftl.html", "auleadmin.ftl.html", "eventiadmin.ftl.html", "gruppiadmin.ftl.html", "gestioneAula.ftl.html", "gestioneGruppo.ftl.html", "gestioneEvento.ftl.html");
 
     public TemplateResult(ServletContext context) {
         this.context = context;
@@ -65,7 +69,7 @@ public class TemplateResult {
             cfg.setServletContextForTemplateLoading(context, "templates");
         }
 
-        //impostiamo un handler per gli errori nei template - utile per il debug    
+        //impostiamo un handler per gli errori nei template - utile per il debug       
         if (context.getInitParameter("view.debug") != null && context.getInitParameter("view.debug").equals("true")) {
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
         } else {
@@ -78,12 +82,14 @@ public class TemplateResult {
         }
 
         //impostiamo il gestore degli oggetti - trasformerà in hash i Java beans
+        //set the object handler that allows us to "view" Java beans as hashes
         DefaultObjectWrapperBuilder owb = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_26);
         owb.setForceLegacyNonListCollections(false);
         owb.setDefaultDateType(TemplateDateModel.DATETIME);
         cfg.setObjectWrapper(owb.build());
 
         //classi opzionali che permettono di riempire ogni data model con dati generati dinamicamente
+        //optional classes to automatically fill every data model with dynamically generated data
         fillers = new ArrayList<>();
         Enumeration parms = context.getInitParameterNames();
         while (parms.hasMoreElements()) {
@@ -108,10 +114,14 @@ public class TemplateResult {
         Map default_data_model = new HashMap();
 
         //iniettiamo alcuni dati di default nel data model
+        //inject some default data in the data model
         default_data_model.put("compiled_on", Calendar.getInstance().getTime()); //data di compilazione del template
         default_data_model.put("outline_tpl", context.getInitParameter("view.outline_template")); //eventuale template di outline
+        //default_data_model.put("navbar", context.getInitParameter("view.navbar"));
+        default_data_model.put("buttons", context.getInitParameter("view.buttons"));
 
         //aggiungiamo altri dati di inizializzazione presi dal web.xml
+        //add other data taken from web.xml
         Map init_tpl_data = new HashMap();
         default_data_model.put("defaults", init_tpl_data);
         Enumeration parms = context.getInitParameterNames();
@@ -153,7 +163,16 @@ public class TemplateResult {
         if (datamodel != null) {
             localdatamodel.putAll(datamodel);
         }
+
+        //Se non è richiesta la navbar per gli admin allora ha valore null così che
+        //freemarker carichi la classica navbar per gli utenti --> see index.ftl.html
+        String nav_name = null;
+        if (tplsNavAdmin.contains(tplname)) {
+            nav_name = "navAdmin.ftl.html";
+        }
+
         String outline_name = (String) localdatamodel.get("outline_tpl");
+
         try {
             if (outline_name == null || outline_name.isEmpty()) {
                 //se non c'è un outline, carichiamo semplicemente il template specificato
@@ -163,6 +182,7 @@ public class TemplateResult {
                 t = cfg.getTemplate(outline_name);
                 //...e il template specifico per questa pagina viene indicato all'outline tramite una variabile content_tpl
                 localdatamodel.put("content_tpl", tplname);
+                localdatamodel.put("navbar", nav_name);
                 //si suppone che l'outline includa questo secondo template
             }
             //associamo i dati al template e lo mandiamo in output
@@ -196,7 +216,6 @@ public class TemplateResult {
     //metodo interno per il setup della response
     private void setupServletResponse(Map datamodel, HttpServletResponse response) {
         //impostiamo il content type, se specificato dall'utente, o usiamo il default
-        //set the output content type, if user-specified, or use the default
         String contentType = (String) datamodel.get("contentType");
         if (contentType == null) {
             contentType = "text/html";
@@ -243,4 +262,5 @@ public class TemplateResult {
             throw new TemplateManagerException("Template error: " + ex.getMessage(), ex);
         }
     }
+
 }

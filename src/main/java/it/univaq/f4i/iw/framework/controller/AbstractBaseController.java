@@ -2,6 +2,7 @@ package it.univaq.f4i.iw.framework.controller;
 
 import it.univaq.f4i.iw.framework.data.DataLayer;
 import it.univaq.f4i.iw.framework.result.FailureResult;
+import it.univaq.f4i.iw.framework.result.TemplateManagerException;
 import it.univaq.f4i.iw.framework.security.SecurityHelpers;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -29,7 +30,7 @@ public abstract class AbstractBaseController extends HttpServlet {
     private Pattern protect;
 
     protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException;
+            throws ServletException, IOException, TemplateManagerException;
 
     // creare la propria classe derivata da DataLayer
     protected abstract DataLayer createDataLayer(DataSource ds) throws ServletException;

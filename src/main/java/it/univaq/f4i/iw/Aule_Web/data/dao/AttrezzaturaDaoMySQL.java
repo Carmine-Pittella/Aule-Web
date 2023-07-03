@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package it.univaq.f4i.iw.Aule_Web.data.dao;
 
 import java.sql.PreparedStatement;
@@ -24,6 +21,7 @@ import it.univaq.f4i.iw.framework.data.OptimisticLockException;
  *
  * @author Carmine
  */
+
 public class AttrezzaturaDaoMySQL extends DAO implements AttrezzaturaDao {
 
     private PreparedStatement selectAttrezzaturaById, insertAttrezzatura, updateAttrezzatura, deleteAttrezzaturabyId,

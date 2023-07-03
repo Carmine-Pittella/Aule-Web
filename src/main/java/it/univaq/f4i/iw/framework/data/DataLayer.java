@@ -6,6 +6,19 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 
+import it.univaq.f4i.iw.Aule_Web.data.dao.AmministratoreDaoMySQL;
+import it.univaq.f4i.iw.Aule_Web.data.dao.AttrezzaturaDaoMySQL;
+import it.univaq.f4i.iw.Aule_Web.data.dao.AulaDaoMySQL;
+import it.univaq.f4i.iw.Aule_Web.data.dao.EventoDaoMySQL;
+import it.univaq.f4i.iw.Aule_Web.data.dao.EventoRicorrenteDaoMySQL;
+import it.univaq.f4i.iw.Aule_Web.data.dao.GruppoDaoMySQL;
+import it.univaq.f4i.iw.Aule_Web.data.model.Amministratore;
+import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura;
+import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
+import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
+import it.univaq.f4i.iw.Aule_Web.data.model.Evento_Ricorrente;
+import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
+
 public class DataLayer implements AutoCloseable {
 
     private final DataSource datasource;
@@ -31,7 +44,12 @@ public class DataLayer implements AutoCloseable {
     }
 
     public void init() throws DataException {
-        //call registerDAO for your own DAOs
+        registerDAO(Attrezzatura.class, new AttrezzaturaDaoMySQL(this));
+        registerDAO(Aula.class, new AulaDaoMySQL(this));
+        registerDAO(Evento.class, new EventoDaoMySQL(this));
+        registerDAO(Gruppo.class, new GruppoDaoMySQL(this));
+        registerDAO(Amministratore.class, new AmministratoreDaoMySQL(this));
+        registerDAO(Evento_Ricorrente.class, new EventoRicorrenteDaoMySQL(this));
     }
 
     public void destroy() {
@@ -57,10 +75,11 @@ public class DataLayer implements AutoCloseable {
         return cache;
     }
 
-    //metodo dell'interfaccia AutoCloseable (permette di usare questa classe nei try-with-resources)
-    //method from the Autocloseable interface (allows this class to be used in try-with-resources)
+    // metodo dell'interfaccia AutoCloseable (permette di usare questa classe nei
+    // try-with-resources)
     @Override
     public void close() throws Exception {
         destroy();
     }
+
 }
