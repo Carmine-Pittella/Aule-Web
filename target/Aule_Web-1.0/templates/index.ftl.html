@@ -3,14 +3,18 @@
 <head>
     <title>Lista Aule</title>
 </head>
-<body>
+<body>    
     <h1>Lista Aule</h1>
     <ul>
         <#list aule as item>
             <li>
                 nome: ${item.nome}
                 capienza: ${item.capienza}
-                prese rete nome: ${item.email_responsabile}
+                email: ${item.emailResponsabile}
+                prese rete: ${item.n_PreseRete}
+                prese elettriche ${item.n_PreseElettriche}
+                
+                
             </li>
         </#list>
     </ul>

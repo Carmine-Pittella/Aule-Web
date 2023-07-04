@@ -17,9 +17,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 public class HomePageServlet extends AuleWebBaseController {
-    
- 
-    
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
@@ -27,6 +24,10 @@ public class HomePageServlet extends AuleWebBaseController {
         try {
             List<Aula> aule;
             aule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().getListaAule();
+
+            String s = "";
+            s = aule.get(0).getEmailResponsabile();
+            request.setAttribute("emaildiocane", s);
 
             request.setAttribute("aule", aule);
             res.activate("index.ftl.html", request, response);
