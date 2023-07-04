@@ -76,9 +76,9 @@ public class AttrezzaturaDaoMySQL extends DAO implements AttrezzaturaDao {
         AttrezzaturaProxy a = (AttrezzaturaProxy) createAttrezzatura();
         try {
             a.setKey(rs.getInt("id"));
-            a.setKey(rs.getInt("nome_attrezzatura"));
-            a.setKey(rs.getInt("descrizione"));
-            a.setKey(rs.getInt("version"));
+            a.setNomeAttrezzo(rs.getString("nome_attrezzo"));
+            a.setDescrizione(rs.getString("descrizione"));
+            a.setVersion(rs.getLong("version"));
         } catch (SQLException e) {
             throw new DataException("Errore durante la creazione di un'Attrezzatura ", e);
         }

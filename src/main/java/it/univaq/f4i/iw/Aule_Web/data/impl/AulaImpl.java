@@ -3,7 +3,6 @@ package it.univaq.f4i.iw.Aule_Web.data.impl;
 
 import java.util.List;
 
-import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura;
 import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura_Relazione;
 import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
