@@ -17,6 +17,12 @@ public class Evento_RicorrenteImpl extends DataItemImpl<Integer> implements Even
     private LocalDateTime data_inizio;
     private LocalDateTime data_fine;
     private Evento evento_master;
+    
+    public Evento_RicorrenteImpl() {
+        this.data_inizio = null;
+        this.data_fine = null;
+        this.evento_master = null;
+    }
 
     // GET
     @Override

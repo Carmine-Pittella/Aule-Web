@@ -81,4 +81,9 @@ public class EventoRicorrenteProxy extends Evento_RicorrenteImpl implements Data
         this.modified = mod;
     }
 
+    public void setEventoMasterKey(int evento_master_key) {
+        this.evento_master_key = evento_master_key;
+        super.setEventoMaster(null);
+    }
+
 }
