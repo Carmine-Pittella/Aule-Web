@@ -152,5 +152,28 @@ public class AulaImpl extends DataItemImpl<Integer> implements Aula {
     }
 
     // METODI
+    @Override
+    public void addGruppo(Gruppo gruppo) {
+        this.gruppo = gruppo;
+    }
+
+    @Override
+    public boolean removeGruppo(Gruppo gruppo) {
+        if (gruppo.getKey() == this.gruppo.getKey()) {
+            this.gruppo = null;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void addEvento(Evento evento) {
+        this.eventi.add(evento);
+    }
+
+    @Override
+    public boolean removeEvento(Evento evento) {
+        return this.eventi.remove(evento);
+    }
 
 }

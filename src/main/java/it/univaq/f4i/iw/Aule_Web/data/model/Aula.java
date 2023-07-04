@@ -63,5 +63,12 @@ public interface Aula extends DataItem<Integer> {
     void setListaAttrezzatura(List<Attrezzatura_Relazione> listaAttrezzatura);
 
     // METODI
+    void addGruppo(Gruppo gruppo);
+
+    boolean removeGruppo(Gruppo gruppo);
+
+    void addEvento(Evento evento);
+
+    boolean removeEvento(Evento evento);
 
 }

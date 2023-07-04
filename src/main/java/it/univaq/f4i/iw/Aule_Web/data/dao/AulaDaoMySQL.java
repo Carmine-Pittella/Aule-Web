@@ -44,8 +44,6 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
     public void init() throws DataException {
         try {
             super.init();
-
-            // Precompilazione delle query
             sAulaById = connection.prepareStatement("SELECT * FROM aula WHERE Id=?");
             sAula = connection
                     .prepareStatement("SELECT * FROM aula WHERE nome=? AND edificio=? AND luogo=? AND piano=?");
@@ -84,7 +82,6 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
 
     @Override
     public void destroy() throws DataException {
-        // Chiusura dei prepareStatement
         try {
             sAula.close();
             sAulaByEvento.close();
@@ -116,7 +113,6 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
 
     private AulaProxy createAula(ResultSet rs) throws DataException {
         AulaProxy a = (AulaProxy) createAula();
-
         try {
             a.setKey(rs.getInt("Id"));
             a.setNome(rs.getString("nome"));
@@ -129,14 +125,12 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
             a.setN_PreseRete(rs.getInt("n_prese_rete"));
             a.setPiano(rs.getInt("piano"));
             a.setVersion(rs.getLong("version"));
-            // List<Attrezzatura_Relazione> attrRel =
-            // attrezzaturaRelazioneDAO.getListaAttrezzaturaByAula(a);
-            // a.setListaAttrezzatura(attrRel);
+            List<Attrezzatura_Relazione> attrRel = attrezzaturaRelazioneDAO.getListaAttrezzaturaByAula(a);
+            a.setListaAttrezzatura(attrRel);
 
         } catch (SQLException ex) {
             throw new DataException("Errore in createAula() ", ex);
         }
-
         return a;
     }
 
@@ -277,38 +271,84 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
 
     @Override
     public List<Aula> getListaAuleByPiano(int piano) throws DataException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getListaAuleByPiano'");
+        List<Aula> aule = new ArrayList<Aula>();
+        try {
+            sAuleByPiano.setInt(1, piano);
+            try (ResultSet rs = sAuleByPiano.executeQuery()) {
+                while (rs.next()) {
+                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Errore in getListaAuleByPiano() ", ex);
+        }
+        return aule;
     }
 
     @Override
     public List<Aula> getListaAuleByLuogo(String luogo) throws DataException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getListaAuleByLuogo'");
+        List<Aula> aule = new ArrayList<Aula>();
+        try {
+            sAuleByLuogo.setString(1, luogo);
+            try (ResultSet rs = sAuleByLuogo.executeQuery()) {
+                while (rs.next()) {
+                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Errore in getListaAuleByLuogo() ", ex);
+        }
+        return aule;
     }
 
     @Override
     public List<Aula> getListaAuleByEdificio(String edificio) throws DataException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getListaAuleByEdificio'");
+        List<Aula> aule = new ArrayList<Aula>();
+        try {
+            sAuleByEdificio.setString(1, edificio);
+            try (ResultSet rs = sAuleByEdificio.executeQuery()) {
+                while (rs.next()) {
+                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Errore in getListaAuleByEdificio() ", ex);
+        }
+        return aule;
     }
 
     @Override
     public List<String> getListaResponsabili() throws DataException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getListaResponsabili'");
+        List<String> resp = new ArrayList<String>();
+        try {
+            try (ResultSet rs = sResponsabili.executeQuery()) {
+                while (rs.next()) {
+                    resp.add((String) rs.getString("email_responsabile"));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Errore in getListaResponsabili() ", ex);
+        }
+        return resp;
     }
 
     @Override
     public void setGruppo(Gruppo gruppo, Aula aula) throws DataException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setGruppo'");
-    }
-
-    @Override
-    public void removeFromGruppo(Gruppo gruppo, Aula aula) throws DataException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeFromGruppo'");
+        try {
+            iGruppo.setInt(1, aula.getKey());
+            iGruppo.setInt(2, gruppo.getKey());
+            if (iGruppo.executeUpdate() == 1) {
+                try (ResultSet keys = iAula.getGeneratedKeys()) {
+                    if (keys.next()) {
+                        aula.addGruppo(gruppo);
+                        dataLayer.getCache().add(Aula.class, aula);
+                        dataLayer.getCache().add(Gruppo.class, gruppo);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Errore in setGruppo() ", ex);
+        }
     }
 
     // funziona sia da insert che da update

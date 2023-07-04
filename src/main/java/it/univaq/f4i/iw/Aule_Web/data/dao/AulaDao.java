@@ -43,8 +43,6 @@ public interface AulaDao {
 
     void setGruppo(Gruppo gruppo, Aula aula) throws DataException;
 
-    void removeFromGruppo(Gruppo gruppo, Aula aula) throws DataException;
-
     void storeAula(Aula aula) throws DataException;
 
     void deleteAula(Aula aula) throws DataException;
