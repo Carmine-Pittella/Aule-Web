@@ -11,12 +11,18 @@
 
 <body>
    <div class="navbar navbar-expand-lg fixed-top bg-primary">
+      <a href="">
+         <img src="immagini/univaq.png" alt="logo-univaq" style="height: 70px;">
+      </a>
       <div class="container">
          <!-- gruppo -->
          <div class="form-group">
             <label for="selectGruppo" class="form-label mt-4" style="color: aliceblue;">Gruppo</label>
             <select class="form-select" id="selectGruppo">
                <option>Tutti</option>
+               <#list gruppi as gruppo>
+                  <option>${gruppo.nome}</option>
+               </#list>
             </select>
          </div>
 
@@ -25,6 +31,9 @@
             <label for="selectAula" class="form-label mt-4" style="color: aliceblue;">Aula</label>
             <select class="form-select" id="selectAula">
                <option>Tutti</option>
+               <#list aule as aula>
+                  <option>${aula.nome}</option>
+               </#list>
             </select>
          </div>
 
@@ -33,6 +42,9 @@
             <label for="selectCorso" class="form-label mt-4" style="color: aliceblue;">Corso</label>
             <select class="form-select" id="selectCorso">
                <option>Tutti</option>
+               <#list corsi as corso>
+                  <option>${corso}</option>
+               </#list>
             </select>
          </div>
 
@@ -54,14 +66,6 @@
          </a>
       </div>
    </div>
-
-
-
-
-
-
-
-
 
 
    <!-- body -->
@@ -93,7 +97,7 @@
       </table>
    </div>
 
-
+   <!-- footer -->
    <div class="navbar navbar-expand-lg fixed-bottom bg-primary" style="align-content: center; height: 50px;">
       <div class="container">
          <!-- data inizio -->
@@ -105,12 +109,6 @@
             <button type="button" class="btn btn-success" style="margin-left: 20px;">Download eventi nell'intervallo di tempo</button>
          </div>
 
-         <!-- data fine -->
-         <div>
-
-         </div>
-
-
       </div>
    </div>
 
@@ -118,7 +116,9 @@
    <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
    <script src="https://bootswatch.com/_vendor/prismjs/prism.js" data-manual></script>
    <script src="https://bootswatch.com/_assets/js/custom.js"></script>
-
+   <script src="script/homepage.js"></script>
 </body>
+
+
 
 </html>
