@@ -100,13 +100,15 @@ public class EventoRicorrenteDaoMySQL extends DAO implements EventoRicorrenteDao
             e.setKey(rs.getInt("Id"));
             e.setDataInizio(rs.getDate("data_inizio").toLocalDate().atTime(rs.getTime("data_inizio").toLocalTime()));
             e.setDataFine(rs.getDate("data_fine").toLocalDate().atTime(rs.getTime("data_fine").toLocalTime()));
-            e.setEventoMaster(eventoDAO.getEventoById(rs.getInt("Id_master")));
+            Evento eventoMaster = eventoDAO.getEventoById(rs.getInt("Id_master"));
+            e.setEventoMaster(eventoMaster);
             e.setEventoMasterKey(rs.getInt("Id_master"));
             e.setVersion(rs.getLong("version"));
         } catch (SQLException ex) {
             throw new DataException("Errore in createEventoRicorrente() ", ex);
         }
         return e;
+
     }
 
     @Override

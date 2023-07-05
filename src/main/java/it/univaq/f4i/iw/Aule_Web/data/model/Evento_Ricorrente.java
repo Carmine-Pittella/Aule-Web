@@ -19,12 +19,16 @@ public interface Evento_Ricorrente extends DataItem<Integer> {
 
     Evento getEventoMaster();
 
+    Integer getEventoMasterKey();
+
     // SET
     void setDataInizio(LocalDateTime data_inizio);
 
     void setDataFine(LocalDateTime data_fine);
 
     void setEventoMaster(Evento evento_master);
+
+    void setEventoMasterKey(Integer evento_master_key);
 
     // METODI
 

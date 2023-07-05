@@ -17,7 +17,8 @@ public class Evento_RicorrenteImpl extends DataItemImpl<Integer> implements Even
     private LocalDateTime data_inizio;
     private LocalDateTime data_fine;
     private Evento evento_master;
-    
+    private Integer evento_master_key;
+
     public Evento_RicorrenteImpl() {
         this.data_inizio = null;
         this.data_fine = null;
@@ -40,6 +41,11 @@ public class Evento_RicorrenteImpl extends DataItemImpl<Integer> implements Even
         return evento_master;
     }
 
+    @Override
+    public Integer getEventoMasterKey() {
+        return evento_master_key;
+    }
+
     // SET
     @Override
     public void setDataInizio(LocalDateTime data_inizio) {
@@ -54,6 +60,11 @@ public class Evento_RicorrenteImpl extends DataItemImpl<Integer> implements Even
     @Override
     public void setEventoMaster(Evento evento_master) {
         this.evento_master = evento_master;
+    }
+
+    @Override
+    public void setEventoMasterKey(Integer evento_master_key) {
+        this.evento_master_key = evento_master_key;
     }
 
     // METODO
