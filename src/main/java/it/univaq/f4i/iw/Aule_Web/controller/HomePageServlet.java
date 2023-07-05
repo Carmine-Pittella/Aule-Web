@@ -2,7 +2,7 @@
 package it.univaq.f4i.iw.Aule_Web.controller;
 
 import it.univaq.f4i.iw.Aule_Web.data.dao.AuleWebDataLayer;
-import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
+import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
 import it.univaq.f4i.iw.framework.data.DataException;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -18,23 +18,23 @@ import javax.servlet.http.HttpServletResponse;
 
 public class HomePageServlet extends AuleWebBaseController {
 
-    @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    private void action_default(HttpServletRequest request, HttpServletResponse response) {
         TemplateResult res = new TemplateResult(getServletContext());
         try {
-            List<Aula> aule;
-            aule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().getListaAule();
+            List<Evento> eventi;
+            eventi = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao().getEventi();
 
-            String s = "";
-            s = aule.get(0).getEmailResponsabile();
-            request.setAttribute("emaildiocane", s);
-
-            request.setAttribute("aule", aule);
+            request.setAttribute("eventi", eventi);
             res.activate("index.ftl.html", request, response);
 
         } catch (TemplateManagerException | DataException ex) {
             handleError("Data access exception: " + ex.getMessage(), request, response);
         }
+    }
+
+    @Override
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        action_default(request, response);
     }
 
 }

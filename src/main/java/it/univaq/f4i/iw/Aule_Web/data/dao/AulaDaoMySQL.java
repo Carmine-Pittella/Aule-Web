@@ -125,8 +125,8 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
             a.setN_PreseRete(rs.getInt("n_prese_rete"));
             a.setPiano(rs.getInt("piano"));
             a.setVersion(rs.getLong("version"));
-            List<Attrezzatura_Relazione> attrRel = attrezzaturaRelazioneDAO.getListaAttrezzaturaByAula(a);
-            a.setListaAttrezzatura(attrRel);
+            /*List<Attrezzatura_Relazione> attrRel = attrezzaturaRelazioneDAO.getListaAttrezzaturaByAula(a);
+            a.setListaAttrezzatura(attrRel);*/
 
         } catch (SQLException ex) {
             throw new DataException("Errore in createAula() ", ex);

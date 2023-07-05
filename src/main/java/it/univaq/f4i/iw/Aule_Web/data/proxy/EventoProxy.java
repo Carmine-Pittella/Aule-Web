@@ -137,7 +137,6 @@ public class EventoProxy extends EventoImpl implements DataItemProxy {
 
     public void setAulaKey(int aula_key) {
         this.aula_key = aula_key;
-        super.setAula(null);
     }
 
     /* ********************************************************* */

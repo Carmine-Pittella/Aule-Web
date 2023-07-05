@@ -33,8 +33,11 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
             sEventiByDate, sEventiByGiorno, sEventiAttuali, sEventiByGruppo,
             sCorsi, sCorsiGruppo, sResponsabili, iEvento, uEvento, dEvento;
 
+    private final AulaDao aulaDao;
+    
     public EventoDaoMySQL(DataLayer d) {
         super(d);
+        aulaDao = (AulaDao) d.getDAO(Aula.class);
     }
 
     @Override
@@ -103,7 +106,6 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
 
     private EventoProxy createEvento(ResultSet rs) throws DataException {
         EventoProxy e = (EventoProxy) createEvento();
-
         try {
             e.setKey(rs.getInt("Id"));
             e.setDataInizio(rs.getDate("data_inizio").toLocalDate().atTime(rs.getTime("data_inizio").toLocalTime()));
@@ -111,7 +113,9 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
             e.setNome(rs.getString("nome"));
             e.setDescrizione(rs.getString("descrizione"));
             e.setEmailResponsabile(rs.getString("email_responsabile"));
-            e.setAulaKey(rs.getInt("Id_aula"));
+            e.setAulaKey(rs.getInt("Id_aula"));          
+            Aula a = aulaDao.getAulaById(rs.getInt("Id_aula"));
+            e.setAula(a);
             e.setTipologiaEvento(TipologiaEvento.valueOf(rs.getString("tipologia")));
             e.setNomeCorso(rs.getString("nome_corso"));
             if (rs.getString("tipo_ricorrenza") != null) {
@@ -128,7 +132,6 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
         } catch (SQLException ex) {
             throw new DataException("Errore in createEvento() ", ex);
         }
-
         return e;
     }
 
