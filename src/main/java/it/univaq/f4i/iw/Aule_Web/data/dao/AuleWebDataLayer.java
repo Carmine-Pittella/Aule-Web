@@ -52,7 +52,7 @@ public class AuleWebDataLayer extends DataLayer {
         return (EventoRicorrenteDao) getDAO(Evento_Ricorrente.class);
     }
 
-    public GruppoDao geGruppoDao() {
+    public GruppoDao getGruppoDao() {
         return (GruppoDao) getDAO(Gruppo.class);
     }
 

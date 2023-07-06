@@ -1,2 +1,1 @@
-Aggiungere la "version" alle tabelle per poi poter fare il proxy
-(il prof lo fa nel esempio_maven_DAO)
+il probema principale è che gli eventi ricorrenti vengono caricati tutti, senza filtri

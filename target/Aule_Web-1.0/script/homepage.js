@@ -17,3 +17,21 @@ document.addEventListener("DOMContentLoaded", function () {
    // Controlla lo stato iniziale
    checkDates();
 });
+
+document.getElementById("selectGruppo").addEventListener("change", function () {
+   let gruppoSelect = document.getElementById("selectGruppo");
+   let url = new URL(window.location.href);
+   let searchParams = url.searchParams;
+
+   if (gruppoSelect.value !== "") {
+      // Aggiungi o sostituisci il parametro "gruppo" nell'URL
+      searchParams.set("gruppo", gruppoSelect.value);
+   } else {
+      // Rimuovi il parametro "gruppo" dall'URL
+      searchParams.delete("gruppo");
+   }
+
+   // Aggiorna l'URL con i nuovi parametri
+   url.search = searchParams.toString();
+   window.location.href = url.toString();
+});
