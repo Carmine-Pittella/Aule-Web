@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author pitte
+ * @author Carmine
  */
 
 public class HomePageServlet extends AuleWebBaseController {
@@ -144,7 +144,11 @@ public class HomePageServlet extends AuleWebBaseController {
             for (Evento_Ricorrente er : eventi_ricorrenti) {
                 Evento tmp = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao()
                         .getEventoById(er.getEventoMasterKey());
-                eventiTrasformati.add(tmp);
+
+                Evento ev = ((Evento) tmp).clone();
+                ev.setDataInizio(er.getDataInizio());
+                ev.setDataFine(er.getDataFine());
+                eventiTrasformati.add(ev);
             }
 
             // Gruppo
@@ -187,11 +191,5 @@ public class HomePageServlet extends AuleWebBaseController {
         } catch (TemplateManagerException | DataException e) {
             e.printStackTrace();
         }
-
     }
-
 }
-
-// fare un coso grande di default, e nel mezzo chiamare la query necessaria,
-// per la barra dei filtri, all'inizio verifico se ci sono valori impostati e
-// nel caso li assegno per poi caricarla.

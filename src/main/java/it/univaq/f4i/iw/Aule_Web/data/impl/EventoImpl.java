@@ -13,7 +13,7 @@ import it.univaq.f4i.iw.framework.data.DataItemImpl;
  * @author Carmine
  */
 
-public class EventoImpl extends DataItemImpl<Integer> implements Evento {
+public class EventoImpl extends DataItemImpl<Integer> implements Evento, Cloneable {
 
     private LocalDateTime data_inizio;
     private LocalDateTime data_fine;
@@ -144,5 +144,14 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento {
     }
 
     // METODI
+    @Override
+    public Evento clone() {
+        try {
+            return (Evento) super.clone();
+        } catch (CloneNotSupportedException e) {
+            // Gestisci l'eccezione se la clonazione non è supportata
+            return null;
+        }
+    }
 
 }

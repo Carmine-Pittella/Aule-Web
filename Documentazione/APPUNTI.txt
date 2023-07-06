@@ -1,1 +1,1 @@
-il probema principale è che gli eventi ricorrenti vengono caricati tutti, senza filtri
+Mancano le query sulle date nella HomePageServlet

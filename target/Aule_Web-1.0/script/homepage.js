@@ -68,3 +68,17 @@ document.getElementById("selectCorso").addEventListener("change", function () {
    url.search = searchParams.toString();
    window.location.href = url.toString();
 });
+
+window.onload = function () {
+   var tableRows = document.querySelectorAll(".table tbody tr");
+   // Aggiungi un gestore di eventi a ciascun elemento della tabella
+   tableRows.forEach(function (row) {
+      row.addEventListener("click", function () {
+         // Ottieni l'ID dell'elemento cliccato
+         var idElemento = this.id;
+
+         // Mostra un alert con l'ID dell'elemento cliccato
+         alert(idElemento);
+      });
+   });
+};

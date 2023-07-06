@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 <#list eventi as evento>
-                    <tr>
+                    <tr id="${evento.key}">
                         <td>${evento.dataInizio?datetime.iso?string('dd-MM-yyyy')}</td>
                         <td>${evento.dataInizio?datetime.iso?string('HH:mm')}</td>
                         <td>${evento.dataFine?datetime.iso?string('HH:mm')}</td>

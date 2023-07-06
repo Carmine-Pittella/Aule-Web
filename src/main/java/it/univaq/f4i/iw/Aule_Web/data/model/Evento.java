@@ -61,5 +61,6 @@ public interface Evento extends DataItem<Integer> {
     void setDataFineRicorrenza(LocalDate data_fine_ricorrenza);
 
     // METODI
+    Evento clone();
 
 }
