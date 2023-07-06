@@ -242,7 +242,6 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
     @Override
     public List<Evento> getEventiAttuali() throws DataException {
         List<Evento> result = new ArrayList<Evento>();
-
         try {
             try (ResultSet rs = sEventiAttuali.executeQuery()) {
                 while (rs.next()) {
@@ -252,7 +251,6 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
         } catch (SQLException ex) {
             throw new DataException("Errore in getEventiAttuali() ", ex);
         }
-
         return result;
     }
 

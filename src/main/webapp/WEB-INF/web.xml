@@ -42,7 +42,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>HomePageServlet</servlet-name>
-        <url-pattern>/HomePageServlet</url-pattern>
+        <url-pattern>/HomePage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -50,7 +50,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>HomePageServlet</welcome-file>
+        <welcome-file>HomePage</welcome-file>
     </welcome-file-list>
     <resource-ref>
         <res-ref-name>jdbc/aule_web</res-ref-name>

@@ -173,7 +173,7 @@ public class EventoRicorrenteDaoMySQL extends DAO implements EventoRicorrenteDao
                 }
             }
         } catch (SQLException ex) {
-            throw new DataException("eRRORE IN getEventiRicorrentiByEvento() ", ex);
+            throw new DataException("Errore in getEventiRicorrentiByEvento() ", ex);
         }
         return result;
     }

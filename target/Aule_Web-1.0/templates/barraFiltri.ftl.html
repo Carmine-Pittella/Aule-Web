@@ -1,5 +1,5 @@
 <div class="navbar navbar-expand-lg fixed-top bg-primary">
-    <a href="">
+    <a href="HomePage">
         <img src="immagini/univaq.png" alt="logo-univaq" style="height: 70px;">
     </a>
     <div class="container">
@@ -8,8 +8,11 @@
             <label for="selectGruppo" class="form-label mt-4" style="color: aliceblue;">Gruppo</label>
             <select class="form-select" id="selectGruppo" name="selectGruppo">
                 <option value="">Tutti</option>
-                <#list gruppi as gruppo>
-                    <option value="${gruppo.key}">${gruppo.nome}</option>
+                <#list gruppi as group>
+                    <option value="${group.key}" <#if (gruppo)??>
+                        <#if group.nome=gruppo> selected </#if>
+                        </#if> >${group.nome}
+                    </option>
                 </#list>
             </select>
         </div>
@@ -18,9 +21,12 @@
         <div class="form-group">
             <label for="selectAula" class="form-label mt-4" style="color: aliceblue;">Aula</label>
             <select class="form-select" id="selectAula">
-                <option>Tutti</option>
-                <#list aule as aula>
-                    <option>${aula.nome}</option>
+                <option value="">Tutti</option>
+                <#list aule as au>
+                    <option value="${au.key}" <#if (aula)??>
+                        <#if au.nome=aula> selected </#if>
+                        </#if> >${au.nome}
+                    </option>
                 </#list>
             </select>
         </div>
@@ -29,9 +35,12 @@
         <div class="form-group">
             <label for="selectCorso" class="form-label mt-4" style="color: aliceblue;">Corso</label>
             <select class="form-select" id="selectCorso">
-                <option>Tutti</option>
-                <#list corsi as corso>
-                    <option>${corso}</option>
+                <option value="">Tutti</option>
+                <#list corsi as co>
+                    <option value="${co}" <#if (corso)??>
+                        <#if co=corso> selected </#if>
+                        </#if> >${co}
+                    </option>
                 </#list>
             </select>
         </div>
