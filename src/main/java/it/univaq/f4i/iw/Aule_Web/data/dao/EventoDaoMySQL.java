@@ -34,7 +34,7 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
             sCorsi, sCorsiGruppo, sResponsabili, iEvento, uEvento, dEvento;
 
     private final AulaDao aulaDao;
-    
+
     public EventoDaoMySQL(DataLayer d) {
         super(d);
         aulaDao = (AulaDao) d.getDAO(Aula.class);
@@ -57,12 +57,16 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
                     + "WHERE SUBTIME( DATE(data_fine),TIME( now() ) ) >= 0 AND "
                     + "SUBTIME( TIME(data_inizio), TIME( DATE_ADD( now() , INTERVAL 3 HOUR) ) ) <= 0 AND "
                     + "DATEDIFF(DATE(data_inizio), now() ) = 0");
-            sEventiByGruppo = connection.prepareStatement("SELECT e.Id AS eventoId FROM evento e JOIN gruppo_aula ga "
-                    + "ON e.Id_aula = ga.Id_aula WHERE ga.Id_gruppo = ?");
+            sEventiByGruppo = connection.prepareStatement(
+                    "SELECT e.Id AS eventoId FROM Evento e JOIN Aula a ON e.id_aula = a.id WHERE a.id_gruppo = ?");
             sCorsi = connection.prepareStatement("SELECT DISTINCT nome_corso FROM evento WHERE nome_corso IS NOT NULL");
+
+            //
             sCorsiGruppo = connection.prepareStatement("SELECT DISTINCT evento.nome_corso "
                     + "FROM evento JOIN aula ON evento.Id_aula = aula.Id JOIN gruppo_aula ON aula.Id = gruppo_aula.Id_aula JOIN gruppo ON gruppo_aula.Id_gruppo = gruppo.Id "
                     + "WHERE gruppo.nome = ? AND nome_corso IS NOT NULL");
+
+            //
             sResponsabili = connection.prepareStatement("SELECT DISTINCT email_responsabile FROM evento");
             iEvento = connection.prepareStatement("INSERT "
                     + "INTO evento (data_inizio,data_fine,nome,descrizione,email_responsabile,Id_aula,tipologia,nome_corso,tipo_ricorrenza,data_fine_ricorrenza) "
@@ -113,7 +117,7 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
             e.setNome(rs.getString("nome"));
             e.setDescrizione(rs.getString("descrizione"));
             e.setEmailResponsabile(rs.getString("email_responsabile"));
-            e.setAulaKey(rs.getInt("Id_aula"));          
+            e.setAulaKey(rs.getInt("Id_aula"));
             Aula a = aulaDao.getAulaById(rs.getInt("Id_aula"));
             e.setAula(a);
             e.setTipologiaEvento(TipologiaEvento.valueOf(rs.getString("tipologia")));
