@@ -77,8 +77,8 @@ document.getElementById("selectCorso").addEventListener("change", function () {
 
 // Funzione per gestire il click sugli elementi della tabella
 function handleTableRowClick(event) {
-   var selectedElementId = event.target.parentNode.id; // Ottieni l'ID dell'elemento selezionato
-   alert(selectedElementId); // Mostra l'alert con l'ID dell'elemento
+   var id_evento = event.target.parentNode.id; // Ottieni l'ID dell'elemento selezionato
+   location.href = "dettagliEvento?evento=" + id_evento;
 }
 
 // Aggiungi il gestore di eventi click a tutti gli elementi <tr> nella tabella
