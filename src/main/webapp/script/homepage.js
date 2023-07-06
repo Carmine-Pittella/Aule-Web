@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
    checkDates();
 });
 
+// gruppo
 document.getElementById("selectGruppo").addEventListener("change", function () {
    let gruppoSelect = document.getElementById("selectGruppo");
    let url = new URL(window.location.href);
@@ -34,4 +35,54 @@ document.getElementById("selectGruppo").addEventListener("change", function () {
    // Aggiorna l'URL con i nuovi parametri
    url.search = searchParams.toString();
    window.location.href = url.toString();
+});
+
+// aula
+document.getElementById("selectAula").addEventListener("change", function () {
+   let aulaSelect = document.getElementById("selectAula");
+   let url = new URL(window.location.href);
+   let searchParams = url.searchParams;
+
+   if (aulaSelect.value !== "") {
+      // Aggiungi o sostituisci il parametro "aula" nell'URL
+      searchParams.set("aula", aulaSelect.value);
+   } else {
+      // Rimuovi il parametro "aula" dall'URL
+      searchParams.delete("aula");
+   }
+
+   // Aggiorna l'URL con i nuovi parametri
+   url.search = searchParams.toString();
+   window.location.href = url.toString();
+});
+
+// corso
+document.getElementById("selectCorso").addEventListener("change", function () {
+   let corsoSelect = document.getElementById("selectCorso");
+   let url = new URL(window.location.href);
+   let searchParams = url.searchParams;
+
+   if (corsoSelect.value !== "") {
+      // Aggiungi o sostituisci il parametro "corso" nell'URL
+      searchParams.set("corso", corsoSelect.value);
+   } else {
+      // Rimuovi il parametro "corso" dall'URL
+      searchParams.delete("corso");
+   }
+
+   // Aggiorna l'URL con i nuovi parametri
+   url.search = searchParams.toString();
+   window.location.href = url.toString();
+});
+
+// Funzione per gestire il click sugli elementi della tabella
+function handleTableRowClick(event) {
+   var selectedElementId = event.target.parentNode.id; // Ottieni l'ID dell'elemento selezionato
+   alert(selectedElementId); // Mostra l'alert con l'ID dell'elemento
+}
+
+// Aggiungi il gestore di eventi click a tutti gli elementi <tr> nella tabella
+var tableRows = document.querySelectorAll("table tbody tr");
+tableRows.forEach(function (row) {
+   row.addEventListener("click", handleTableRowClick);
 });
