@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/aule_web">
+  <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" maxActive="10" maxIdle="5" maxWait="10000" name="jdbc/aule_web" password="aule_webpass" type="javax.sql.DataSource" url="jdbc:mysql://localhost/aule_web?serverTimezone=Europe/Rome" username="aule_website"/>
+</Context>
