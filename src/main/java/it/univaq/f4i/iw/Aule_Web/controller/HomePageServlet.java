@@ -7,9 +7,13 @@ import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento_Ricorrente;
 import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
 import it.univaq.f4i.iw.framework.data.DataException;
+import it.univaq.f4i.iw.framework.result.CSVWriter;
+import it.univaq.f4i.iw.framework.result.StreamResult;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -107,6 +111,16 @@ public class HomePageServlet extends AuleWebBaseController {
         }
     }
 
+    // DOWNLOAD EVENTI
+    private void action_download(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        StreamResult result = new StreamResult(getServletContext());
+        CSVWriter w = new CSVWriter();
+        w.csv_time(eventi, getServletContext().getRealPath(""));
+        URL url = getServletContext().getResource("/" + "csv" + "/" + "eventi_time.csv");
+        result.setResource(url);
+        result.activate(request, response);
+    }
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         action_barra_filtri(request, response);
@@ -126,6 +140,27 @@ public class HomePageServlet extends AuleWebBaseController {
         }
         // aggiungo alla lista gli eventi ricorrenti
         CompletaListaConEventiRicorrenti(request, response);
+
+        if (request.getParameter("csv") != null) {
+            try {
+                // action_download(request, response);
+                TemplateResult res = new TemplateResult(getServletContext());
+                request.setAttribute("eventi", eventi);
+                res.activate("eventi.ftl.html", request, response);
+                return;
+            } catch (TemplateManagerException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("eventi", eventi);
+            res.activate("eventi.ftl.html", request, response);
+        } catch (TemplateManagerException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /* **************************************************************** */
@@ -133,8 +168,6 @@ public class HomePageServlet extends AuleWebBaseController {
     private void CompletaListaConEventiRicorrenti(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
         try {
-            TemplateResult res = new TemplateResult(getServletContext());
-
             List<Evento_Ricorrente> eventi_ricorrenti;
             eventi_ricorrenti = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoRicorrenteDao()
                     .getEventiRicorrenti();
@@ -185,10 +218,7 @@ public class HomePageServlet extends AuleWebBaseController {
                     return evento1.getDataInizio().compareTo(evento2.getDataInizio());
                 }
             });
-            request.setAttribute("eventi", eventi);
-            res.activate("eventi.ftl.html", request, response);
-
-        } catch (TemplateManagerException | DataException e) {
+        } catch (DataException e) {
             e.printStackTrace();
         }
     }
