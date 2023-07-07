@@ -109,6 +109,7 @@ public class HomePageServlet extends AuleWebBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+
         action_barra_filtri(request, response);
         action_default(request, response);
 

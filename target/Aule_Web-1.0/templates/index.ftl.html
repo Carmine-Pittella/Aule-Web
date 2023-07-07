@@ -11,18 +11,18 @@
 
 <body>
    <!-- BODY -->
-   <!-- if qualche condizione -->
-   <#include "eventi.ftl.html">
+   <#if (dettagli)??>
+      <#include "dettagliEvento.ftl.html">
+         <#else>
+            <#include "eventi.ftl.html">
+   </#if>
 
-      <!-- if qualche condizione -->
-      <!-- include altro -->
 
 
-
-      <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="https://bootswatch.com/_vendor/prismjs/prism.js" data-manual></script>
-      <script src="https://bootswatch.com/_assets/js/custom.js"></script>
-      <script src="script/homepage.js"></script>
+   <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://bootswatch.com/_vendor/prismjs/prism.js" data-manual></script>
+   <script src="https://bootswatch.com/_assets/js/custom.js"></script>
+   <script src="script/homepage.js"></script>
 </body>
 
 
