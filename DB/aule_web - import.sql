@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 28, 2023 alle 17:35
+-- Creato il: Lug 07, 2023 alle 20:19
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -128,6 +128,23 @@ CREATE TABLE `amministratore` (
   `version` int(10) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `amministratore`
+--
+
+INSERT INTO `amministratore` (`id`, `nome`, `cognome`, `email`, `password`, `version`) VALUES
+(1, 'Carmine', 'Pittella', 'admin@email.it', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd4', 1);
+
+--
+-- Trigger `amministratore`
+--
+DELIMITER $$
+CREATE TRIGGER `hash_password` BEFORE INSERT ON `amministratore` FOR EACH ROW BEGIN 
+	SET NEW.password = SHA2(NEW.password, 512);
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -140,6 +157,15 @@ CREATE TABLE `attrezzatura` (
   `descrizione` varchar(500) NOT NULL,
   `version` int(10) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `attrezzatura`
+--
+
+INSERT INTO `attrezzatura` (`id`, `nome_attrezzo`, `descrizione`, `version`) VALUES
+(1, 'microfono', 'dispositivo per amplificare la voce', 1),
+(2, 'lavagna multimediale', 'lavagna touchscreen collegabile al PC', 1),
+(3, 'proiettore', 'descrizione attrezzo proiettore', 1);
 
 -- --------------------------------------------------------
 
@@ -154,6 +180,16 @@ CREATE TABLE `attrezzatura_relazione` (
   `quantita` int(11) NOT NULL,
   `version` int(10) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `attrezzatura_relazione`
+--
+
+INSERT INTO `attrezzatura_relazione` (`id`, `id_aula`, `id_attrezzo`, `quantita`, `version`) VALUES
+(1, 1, 1, 3, 1),
+(2, 2, 2, 2, 1),
+(3, 2, 3, 2, 1),
+(4, 1, 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -176,6 +212,14 @@ CREATE TABLE `aula` (
   `version` int(10) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `aula`
+--
+
+INSERT INTO `aula` (`id`, `nome`, `luogo`, `edificio`, `piano`, `capienza`, `email_responsabile`, `n_prese_rete`, `n_prese_elettriche`, `note`, `id_gruppo`, `version`) VALUES
+(1, 'A1.7', 'Coppito ', 'Coppito 0', 1, 50, 'responsabile@gmail.com', 10, 8, 'Aula molto spaziosa', 1, 1),
+(2, 'Aula Rossa', 'Coppito', 'Coppito 1', 2, 30, 'responsabile@gmail.com', 10, 35, 'Aula nuova e con i gradini', 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -196,6 +240,14 @@ CREATE TABLE `evento` (
   `data_fine_ricorrenza` date DEFAULT NULL,
   `version` int(10) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `evento`
+--
+
+INSERT INTO `evento` (`id`, `data_inizio`, `data_fine`, `nome`, `descrizione`, `email_responsabile`, `id_aula`, `tipologia`, `nome_corso`, `tipo_ricorrenza`, `data_fine_ricorrenza`, `version`) VALUES
+(1, '2023-07-10 10:00:00', '2023-07-10 11:00:00', 'Web engineering', 'lezione di web engineering', 'giuseppe.dellapenna@univaq.it', 1, 'LEZIONE', 'web engineering', 'SETTIMANALE', '2023-07-31', 1),
+(2, '2023-07-11 09:00:00', '2023-07-11 09:45:00', 'Esame', 'esame di sviluppo web avanzato', 'responsabile@gmail.com', 2, 'ESAME', 'sviluppo web avanzato', 'GIORNALIERA', '2023-07-14', 1);
 
 --
 -- Trigger `evento`
@@ -413,6 +465,18 @@ CREATE TABLE `evento_ricorrente` (
   `version` int(10) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `evento_ricorrente`
+--
+
+INSERT INTO `evento_ricorrente` (`id`, `data_inizio`, `data_fine`, `id_master`, `version`) VALUES
+(1, '2023-07-17 10:00:00', '2023-07-17 11:00:00', 1, 1),
+(2, '2023-07-24 10:00:00', '2023-07-24 11:00:00', 1, 1),
+(3, '2023-07-31 10:00:00', '2023-07-31 11:00:00', 1, 1),
+(4, '2023-07-12 09:00:00', '2023-07-12 09:45:00', 2, 1),
+(5, '2023-07-13 09:00:00', '2023-07-13 09:45:00', 2, 1),
+(6, '2023-07-14 09:00:00', '2023-07-14 09:45:00', 2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -425,6 +489,16 @@ CREATE TABLE `gruppo` (
   `descrizione` varchar(255) DEFAULT NULL,
   `version` int(10) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `gruppo`
+--
+
+INSERT INTO `gruppo` (`id`, `nome`, `descrizione`, `version`) VALUES
+(1, 'gruppo1', 'descrizione gruppo 1', 1),
+(2, 'gruppo2', 'descrizione gruppo 2', 1),
+(3, 'gruppo3', 'descrizione gruppo 3', 1),
+(4, 'gruppo4', 'descrizione gruppo 4', 1);
 
 --
 -- Indici per le tabelle scaricate
@@ -490,43 +564,43 @@ ALTER TABLE `gruppo`
 -- AUTO_INCREMENT per la tabella `amministratore`
 --
 ALTER TABLE `amministratore`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `attrezzatura`
 --
 ALTER TABLE `attrezzatura`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `attrezzatura_relazione`
 --
 ALTER TABLE `attrezzatura_relazione`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `aula`
 --
 ALTER TABLE `aula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `evento_ricorrente`
 --
 ALTER TABLE `evento_ricorrente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `gruppo`
 --
 ALTER TABLE `gruppo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Limiti per le tabelle scaricate

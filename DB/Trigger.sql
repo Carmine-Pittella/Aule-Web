@@ -308,7 +308,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- funzione per cryptare la password dell'amministratore
+-- funzione per cryptare la password dell'amministratore (INSERT)
 DROP TRIGGER IF EXISTS hash_password;
 DELIMITER $$
 CREATE TRIGGER hash_password
@@ -316,5 +316,20 @@ BEFORE INSERT ON Amministratore
 FOR EACH ROW
 BEGIN 
 	SET NEW.password = SHA2(NEW.password, 512);
+END $$
+DELIMITER ;
+
+-- funzione per cryptare la password dell'amministratore (UPDATE)
+DROP TRIGGER IF EXISTS rehash_password;
+DELIMITER $$  
+CREATE TRIGGER rehash_password
+BEFORE UPDATE ON amministratore
+FOR EACH ROW
+BEGIN 
+	IF(length(NEW.password) <> 128)
+		THEN BEGIN 
+			SET NEW.password = SHA2(NEW.password, 512);
+		END;
+	END IF;
 END $$
 DELIMITER ;

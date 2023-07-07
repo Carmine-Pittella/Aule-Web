@@ -39,24 +39,26 @@ public class loginServlet extends AuleWebBaseController {
                 Amministratore admin = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAmministratoreDao()
                         .getAmministratoreByEmail(email);
 
-                if (admin != null && SecurityHelpers.checkHashSHA(password, admin.getPassword())) {
-                    // login avvenuto con successo
-                    TemplateResult res = new TemplateResult(getServletContext());
-                    SecurityHelpers.createSession(request, email, admin.getKey());
-                    res.activate("areaAdmin.ftl.html", request, response);
-
+                if (admin != null) {
+                    if (SecurityHelpers.checkHashSHA(password, admin.getPassword())) {
+                        // login avvenuto con successo
+                        TemplateResult res = new TemplateResult(getServletContext());
+                        SecurityHelpers.createSession(request, email, admin.getKey());
+                        res.activate("areaAdmin.ftl.html", request, response);
+                    } else {
+                        TemplateResult res = new TemplateResult(getServletContext());
+                        res.activate("login.ftl.html", request, response);
+                    }
                 } else {
                     // login fallito
                     request.setAttribute("errore", true);
                     TemplateResult res = new TemplateResult(getServletContext());
                     res.activate("login.ftl.html", request, response);
                 }
-            } catch (DataException | NoSuchAlgorithmException | TemplateManagerException ex) {
-                handleError("Data access exception: " + ex.getMessage(), request, response);
+            } catch (DataException | TemplateManagerException | NoSuchAlgorithmException ex) {
+                handleError("lallero sium: " + ex.getMessage(), request, response);
             }
-
         }
-
     }
 
     @Override
