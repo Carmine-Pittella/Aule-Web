@@ -10,25 +10,46 @@
 </head>
 
 <body>
-    <div class="navbar navbar-expand-lg fixed-top bg-primary">
-    </div>
+    <div class="navbar navbar-expand-lg fixed-top bg-primary"></div>
 
     <!-- body -->
-    <h1 id="buttons" style="text-align: center; margin-bottom: 30px">dettagli evento SPAN </h1>
+    <h1 id="buttons" style="text-align: center; margin-bottom: 30px">
+        Dettagli Evento: <span class="badge rounded-pill bg-primary">${evento.nome}</span>
+    </h1>
     <div class="container">
+        <div style="text-align: center;">
+            <h3>DATA: <span class="text-info">${evento.dataInizio?datetime.iso?string('dd-MM-yyyy')}</span>
+            </h3><br>
+            <h3>ORA INIZIO: <span class="text-info">${evento.dataInizio?datetime.iso?string('HH:mm')}</span>
+            </h3><br>
+            <h3>ORA FINE: <span class="text-info">${evento.dataFine?datetime.iso?string('HH:mm')}</span>
+            </h3><br>
+            <h3>DESCRIZIONE: <span class="text-info">${evento.descrizione}</span>
+            </h3><br>
+            <h3>CORSO:
+                <span class="text-info">
+                    <#if (evento.nomeCorso)??>
+                        ${evento.nomeCorso}
+                        <#else>
+                            Nessun corso
+                    </#if>
+                </span>
+            </h3><br>
+            <h3>EMAIL RESPONSABILE: <span class="text-info">${evento.emailResponsabile}</span>
+            </h3><br>
+            <h3>TIPOLOGIA EVENTO: <span class="text-info">${evento.tipologiaEvento}</span>
+            </h3><br>
+            <h3>AULA: <span class="text-info">${evento.aula.nome}</span>
+            </h3>
+        </div>
     </div>
 
-
-    <div class="navbar navbar-expand-lg fixed-bottom bg-primary" style="align-content: center; height: 50px;">
-    </div>
-
+    <div class="navbar navbar-expand-lg fixed-bottom bg-primary" style="align-content: center; height: 50px"></div>
 
     <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://bootswatch.com/_vendor/prismjs/prism.js" data-manual></script>
     <script src="https://bootswatch.com/_assets/js/custom.js"></script>
     <script src="script/homepage.js"></script>
-
-
 </body>
 
 </html>
