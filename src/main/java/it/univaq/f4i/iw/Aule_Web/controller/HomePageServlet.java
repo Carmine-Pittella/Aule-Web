@@ -146,13 +146,12 @@ public class HomePageServlet extends AuleWebBaseController {
                 // action_download(request, response);
                 TemplateResult res = new TemplateResult(getServletContext());
                 request.setAttribute("eventi", eventi);
-                res.activate("eventi.ftl.html", request, response);
+                res.activate("login.ftl.html", request, response);
                 return;
             } catch (TemplateManagerException e) {
                 e.printStackTrace();
             }
         }
-
         try {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("eventi", eventi);
