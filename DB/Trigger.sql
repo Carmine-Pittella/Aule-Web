@@ -307,3 +307,14 @@ BEGIN
     END IF;
 END $$
 DELIMITER ;
+
+-- funzione per cryptare la password dell'amministratore
+DROP TRIGGER IF EXISTS hash_password;
+DELIMITER $$
+CREATE TRIGGER hash_password
+BEFORE INSERT ON Amministratore
+FOR EACH ROW
+BEGIN 
+	SET NEW.password = SHA2(NEW.password, 512);
+END $$
+DELIMITER ;

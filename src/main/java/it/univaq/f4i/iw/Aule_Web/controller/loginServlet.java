@@ -43,12 +43,13 @@ public class loginServlet extends AuleWebBaseController {
                     // login avvenuto con successo
                     TemplateResult res = new TemplateResult(getServletContext());
                     SecurityHelpers.createSession(request, email, admin.getKey());
-                    res.activate("eventi.ftl.html", request, response);
+                    res.activate("areaAdmin.ftl.html", request, response);
 
                 } else {
                     // login fallito
+                    request.setAttribute("errore", true);
                     TemplateResult res = new TemplateResult(getServletContext());
-                    res.activate("eventi.ftl.html", request, response);
+                    res.activate("login.ftl.html", request, response);
                 }
             } catch (DataException | NoSuchAlgorithmException | TemplateManagerException ex) {
                 handleError("Data access exception: " + ex.getMessage(), request, response);
@@ -62,8 +63,6 @@ public class loginServlet extends AuleWebBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             if (request.getParameter("login") != null) {
-                TemplateResult res = new TemplateResult(getServletContext());
-                res.activate("eventi.ftl.html", request, response);
                 action_login(request, response);
             } else {
                 action_default(request, response);

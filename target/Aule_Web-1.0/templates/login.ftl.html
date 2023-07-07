@@ -1,5 +1,4 @@
 <head>
-    <title>TODO supply a title</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -9,10 +8,10 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
     <link rel="stylesheet" href="style/login.css" />
+    <title>Login admin</title>
 </head>
 
 <body>
-    <!-- partial:index.partial.html -->
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-2"></div>
@@ -53,7 +52,19 @@
                 <div class="col-lg-3 col-md-2"></div>
             </div>
         </div>
-        <!-- partial -->
+        <#if (errore)??>
+            <div class="container d-flex justify-content-center" style="margin-top: 70px;">
+                <!-- <label style="color: red;"> ladfijsdihsdbfjskdfndsjfnsdjfds</label> -->
+                <div class="alert alert-dismissible alert-danger">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong>ERRORE! </strong> Email o Password errati.
+                </div>
+            </div>
+            <#else>
+        </#if>
+
+
+    </div>
 
 
 

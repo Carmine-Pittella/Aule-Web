@@ -143,12 +143,9 @@ public class HomePageServlet extends AuleWebBaseController {
 
         if (request.getParameter("csv") != null) {
             try {
-                // action_download(request, response);
-                TemplateResult res = new TemplateResult(getServletContext());
-                request.setAttribute("eventi", eventi);
-                res.activate("login.ftl.html", request, response);
+                action_download(request, response);
                 return;
-            } catch (TemplateManagerException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
