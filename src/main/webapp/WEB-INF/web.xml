@@ -52,6 +52,22 @@
         <servlet-name>adminServlet</servlet-name>
         <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.adminServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>auleAdminServlet</servlet-name>
+        <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.auleAdminServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>eventiAdminServlet</servlet-name>
+        <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.eventiAdminServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>gruppiAdminServlet</servlet-name>
+        <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.gruppiAdminServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>attrezzaturaAdminServlet</servlet-name>
+        <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.attrezzaturaAdminServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomePageServlet</servlet-name>
         <url-pattern>/HomePage</url-pattern>
@@ -67,6 +83,22 @@
     <servlet-mapping>
         <servlet-name>adminServlet</servlet-name>
         <url-pattern>/areaAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>auleAdminServlet</servlet-name>
+        <url-pattern>/auleAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>eventiAdminServlet</servlet-name>
+        <url-pattern>/eventiAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gruppiAdminServlet</servlet-name>
+        <url-pattern>/gruppiAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>attrezzaturaAdminServlet</servlet-name>
+        <url-pattern>/attrezzaturaAdmin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

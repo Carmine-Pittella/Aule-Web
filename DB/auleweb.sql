@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS Amministratore (
     nome VARCHAR(64) NOT NULL,
     cognome VARCHAR(64) NOT NULL,
     email VARCHAR(128) NOT NULL,
-    password VARCHAR(64) NOT NULL,
+    password VARCHAR(128) NOT NULL,
     version INT UNSIGNED NOT NULL DEFAULT 1,
     UNIQUE (email)
 );

@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
--->
 <html>
 
 <head>
-    <title>TODO supply a title</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/prismjs/themes/prism-okaidia.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css" />
+    <title>area admin</title>
 </head>
 
 <body>
-    <div>TODO write content</div>
+    <#include "barraAdmin.ftl.html">
 
-    <#if (sium)??>
-        <h1>gsgffdsdsffsdfdsdsfdsfsfd</h1>
-        <h1>gsgffdsdsffsdfdsdsfdsfsfd</h1>
-        <h1>gsgffdsdsffsdfdsdsfdsfsfd</h1>
-        <h1>gsgffdsdsffsdfdsdsfdsfsfd</h1>
-        <#else>
-    </#if>
+        <!-- body -->
+        <h1 id="buttons" style="text-align: center; margin-bottom: 30px">
+            Amministratore: ${admin.nome} ${admin.cognome}
+        </h1>
+        <h3 id="buttons" style="text-align: center; margin-bottom: 30px">Scegli cosa gestire:</h3>
+        <div class="container">
+            <!-- potrei mettere dei blocchi per riempire lo spazio -->
+        </div>
+
+        <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://bootswatch.com/_vendor/prismjs/prism.js" data-manual></script>
+        <script src="https://bootswatch.com/_assets/js/custom.js"></script>
 </body>
 
 </html>

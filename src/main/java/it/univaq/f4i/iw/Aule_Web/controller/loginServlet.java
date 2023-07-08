@@ -44,6 +44,7 @@ public class loginServlet extends AuleWebBaseController {
                         // login avvenuto con successo
                         TemplateResult res = new TemplateResult(getServletContext());
                         SecurityHelpers.createSession(request, email, admin.getKey());
+                        request.setAttribute("admin", admin);
                         res.activate("areaAdmin.ftl.html", request, response);
                     } else {
                         TemplateResult res = new TemplateResult(getServletContext());

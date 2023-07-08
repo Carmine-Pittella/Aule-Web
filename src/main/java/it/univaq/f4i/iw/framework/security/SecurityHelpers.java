@@ -91,9 +91,7 @@ public class SecurityHelpers {
         HttpSession s = request.getSession(true);
         s.setAttribute("username", username);
         s.setAttribute("userid", userid);
-        //
         s.setAttribute("ip", request.getRemoteHost());
-        //
         s.setAttribute("session-start-ts", LocalDateTime.now());
         return s;
     }
@@ -229,14 +227,9 @@ public class SecurityHelpers {
         byte[] messageDigest = md.digest(input.getBytes());
         BigInteger no = new BigInteger(1, messageDigest);
         String hashtext = no.toString(16);
-
-        // while (hashtext.length() < 32) {
-        // hashtext = "0" + hashtext;
-        // }
-
-        System.out.println("stringa passata: " + hash);
-        System.out.println("passwor       d: " + hashtext);
-
+        while (hashtext.length() < 32) {
+            hashtext = "0" + hashtext;
+        }
         return hashtext.equals(hash);
     }
 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/prismjs/themes/prism-okaidia.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css" />
+    <title>gestione aule</title>
+</head>
+
+<body>
+    <#include "barraAdmin.ftl.html">
+
+
+        <!-- body -->
+        <h1 id="buttons" style="text-align: center; margin-bottom: 30px">Gestione Aule</h1>
+        <h3 id="buttons" style="text-align: center; margin-bottom: 30px">
+            <span class="badge rounded-pill bg-light">Seleziona un'aula per visualizzare/modificare i dettagli</span>
+        </h3>
+        <div class="container">
+            <table class="table table-hover" id="tableAule">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col" style="width: 20%;">Nome</th>
+                        <th scope="col" style="width: 15%;">Luogo</th>
+                        <th scope="col" style="width: 15%;">Edificio</th>
+                        <th scope="col" style="width: 15%;">Piano</th>
+                        <th scope="col" style="width: 15%;">Capienza</th>
+                        <th scope="col" style="width: 20%;">Email responsabile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <#list aule as aula>
+                        <tr id="${aula.key}">
+                            <td>${aula.nome}</td>
+                            <td>${aula.luogo}</td>
+                            <td>${aula.edificio}</td>
+                            <td>${aula.piano}</td>
+                            <td>${aula.capienza}</td>
+                            <td>${aula.emailResponsabile}</td>
+                        </tr>
+                    </#list>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="navbar navbar-expand-lg fixed-bottom bg-warning" style="align-content: center; height: 50px;">
+            <div class="container">
+                <div class="container d-flex justify-content-center">
+                    <a href="settingAula">
+                        <button class="btn btn-primary" name="settingAula" id="settingAula">Aggiungi Aula</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://bootswatch.com/_vendor/prismjs/prism.js" data-manual></script>
+        <script src="https://bootswatch.com/_assets/js/custom.js"></script>
+        <script src="script/adminAula.js"></script>
+
+
+</body>
+
+</html>

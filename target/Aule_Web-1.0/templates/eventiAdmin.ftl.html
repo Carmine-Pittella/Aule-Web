@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/prismjs/themes/prism-okaidia.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css" />
+    <title>gestione eventi</title>
+</head>
+
+<body>
+    <#include "barraAdmin.ftl.html">
+
+
+        <!-- body -->
+        <h1 id="buttons" style="text-align: center; margin-bottom: 30px">Gestione Eventi</h1>
+        <h3 id="buttons" style="text-align: center; margin-bottom: 30px">
+            <span class="badge rounded-pill bg-light">Seleziona un evento per visualizzare/modificare i dettagli</span>
+        </h3>
+        <div class="container">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-primary">
+                        <th scope="col" style="width: 15%;">Data</th>
+                        <th scope="col" style="width: 10%;">Ora inizio</th>
+                        <th scope="col" style="width: 10%;">Ora fine</th>
+                        <th scope="col" style="width: 20%;">Aula</th>
+                        <th scope="col" style="width: 20%;">Nome</th>
+                        <th scope="col" style="width: 25%;">Descrizione</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <#list eventi as evento>
+                        <tr id="${evento.key}">
+                            <td>${evento.dataInizio?datetime.iso?string('dd-MM-yyyy')}</td>
+                            <td>${evento.dataInizio?datetime.iso?string('HH:mm')}</td>
+                            <td>${evento.dataFine?datetime.iso?string('HH:mm')}</td>
+                            <td>${evento.aula.nome}</td>
+                            <td>${evento.nome}</td>
+                            <td>${evento.descrizione}</td>
+                        </tr>
+                    </#list>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="navbar navbar-expand-lg fixed-bottom bg-warning" style="align-content: center; height: 50px;">
+            <div class="container">
+                <div class="container d-flex justify-content-center">
+                    <a href="settingAula">
+                        <button class="btn btn-primary" name="settingAula" id="settingAula">Aggiungi Evento</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://bootswatch.com/_vendor/prismjs/prism.js" data-manual></script>
+        <script src="https://bootswatch.com/_assets/js/custom.js"></script>
+        <script src="script/adminEvento.js"></script>
+
+
+</body>
+
+</html>
