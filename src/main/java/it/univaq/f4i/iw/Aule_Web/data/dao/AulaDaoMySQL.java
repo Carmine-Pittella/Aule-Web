@@ -26,7 +26,7 @@ import it.univaq.f4i.iw.framework.data.OptimisticLockException;
 
 public class AulaDaoMySQL extends DAO implements AulaDao {
 
-    private PreparedStatement sAulaById, sAula, sAulaByEvento;
+    private PreparedStatement sAulaById, sAula, sAulaByEvento, sAulaByNome;
     private PreparedStatement sAule, sAuleByGruppo, sAuleByNPreseRete, sAuleByNPreseElettriche,
             sAuleByCapienza, sAuleByPiano, sAuleByLuogo, sAuleByEdificio;
     private PreparedStatement sResponsabili;
@@ -45,6 +45,7 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
         try {
             super.init();
             sAulaById = connection.prepareStatement("SELECT * FROM aula WHERE Id=?");
+            sAulaByNome = connection.prepareStatement("SELECT * FROM aula WHERE nome=?");
             sAula = connection
                     .prepareStatement("SELECT * FROM aula WHERE nome=? AND edificio=? AND luogo=? AND piano=?");
             sAulaByEvento = connection
@@ -53,9 +54,9 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
             sAuleByGruppo = connection.prepareStatement(
                     "SELECT Id AS aulaId FROM aula WHERE Id_gruppo=?");
             sAuleByNPreseRete = connection
-                    .prepareStatement("SELECT Id AS aulaId FROM aula WHERE numero_prese_rete >=?");
+                    .prepareStatement("SELECT Id AS aulaId FROM aula WHERE n_prese_rete >=?");
             sAuleByNPreseElettriche = connection
-                    .prepareStatement("SELECT Id AS aulaId FROM aula WHERE numero_prese_elettriche >=?");
+                    .prepareStatement("SELECT Id AS aulaId FROM aula WHERE n_prese_elettriche >=?");
             sAuleByCapienza = connection.prepareStatement("SELECT Id AS aulaId FROM aula WHERE capienza >=?");
             sAuleByPiano = connection.prepareStatement("SELECT Id AS aulaId FROM aula WHERE piano =?");
             sAuleByLuogo = connection.prepareStatement("SELECT Id AS aulaId FROM aula WHERE luogo =?");
@@ -67,11 +68,11 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
             dGruppo = connection.prepareStatement("DELETE FROM gruppo_aula WHERE Id_aula=? AND Id_gruppo=?");
 
             iAula = connection.prepareStatement(
-                    "INSERT INTO aula (nome, luogo, edificio, piano, capienza, email_responsabile, numero_prese_rete, numero_prese_elettriche, note)"
+                    "INSERT INTO aula (nome, luogo, edificio, piano, capienza, email_responsabile, n_prese_rete, n_prese_elettriche, note)"
                             + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     Statement.RETURN_GENERATED_KEYS);
             uAula = connection.prepareStatement("UPDATE aula"
-                    + " SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, email_responsabile = ?, numero_prese_rete = ?, numero_prese_elettriche = ?, note = ?, version=?"
+                    + " SET nome = ?, luogo = ?, edificio = ?, piano = ?, capienza = ?, email_responsabile = ?, n_prese_rete = ?, n_prese_elettriche = ?, note = ?, version=?"
                     + " WHERE Id = ? AND version=?");
             dAula = connection.prepareStatement("DELETE FROM aula WHERE Id=?");
 
@@ -152,6 +153,23 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
             } catch (SQLException ex) {
                 throw new DataException("Errore in getAulaById() ", ex);
             }
+        }
+        return a;
+    }
+
+    @Override
+    public Aula getAulaByNome(String nome) throws DataException {
+        Aula a = null;
+        try {
+            sAulaByNome.setString(1, nome);
+            try (ResultSet rs = sAulaByNome.executeQuery()) {
+                if (rs.next()) {
+                    a = createAula(rs);
+                    dataLayer.getCache().add(Aula.class, a);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Errore in getAulaByNome() ", ex);
         }
         return a;
     }
@@ -357,6 +375,7 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
     public void storeAula(Aula aula) throws DataException {
         try {
             if (aula.getKey() != null && aula.getKey() > 0) {
+                System.out.println("UPDATEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                 // update
                 if (aula instanceof DataItemProxy && !((DataItemProxy) aula).isModified()) {
                     return;

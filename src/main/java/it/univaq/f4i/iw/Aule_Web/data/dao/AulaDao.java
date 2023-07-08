@@ -19,6 +19,8 @@ public interface AulaDao {
 
     Aula getAulaById(int aula_key) throws DataException;
 
+    Aula getAulaByNome(String nome) throws DataException;
+
     Aula getAulaByPosizione(String edificio, String luogo, int piano, String nome) throws DataException;
 
     Aula getAulaByEvento(Evento evento) throws DataException;

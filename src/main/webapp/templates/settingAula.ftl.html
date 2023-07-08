@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/prismjs/themes/prism-okaidia.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css" />
+    <title>gestione aule</title>
+</head>
+
+<body>
+    <#include "barraAdmin.ftl.html">
+
+        <!-- body -->
+        <#if (aula)??>
+            <h1 id="buttons" style="text-align: center; margin-bottom: 30px">
+                Aula:
+                <span class="badge rounded-pill bg-primary">${aula.nome}</span>
+            </h1>
+            <#else>
+                <h1 id="buttons" style="text-align: center; margin-bottom: 30px">
+                    Aggiungi Aula
+                </h1>
+        </#if>
+        <div class="container" style="margin-bottom: 100px;">
+            <form>
+
+                <#if (aula)??>
+                    <input type="number" class="form-control" id="ID" name="ID" hidden <#if (aula)??> value="${aula.key}"
+                </#if> />
+                <#else>
+                    </#if>
+
+                    <div class="form-group">
+                        <h5 for="nome" class="form-label mt-4">
+                            <span class="badge bg-secondary">Nome Aula</span>
+                        </h5>
+                        <input type="text" class="form-control" id="nome" name="nome" required <#if (aula)??> value="${aula.nome}" </#if> />
+                    </div>
+
+                    <div class="form-group">
+                        <h5 for="luogo" class="form-label mt-4">
+                            <span class="badge bg-secondary">Luogo</span>
+                        </h5>
+                        <input type="text" class="form-control" id="luogo" name="luogo" required <#if (aula)??> value="${aula.luogo}" </#if> />
+                    </div>
+
+                    <div class="form-group">
+                        <h5 for="edificio" class="form-label mt-4">
+                            <span class="badge bg-secondary">Edificio</span>
+                        </h5>
+                        <input type="text" class="form-control" id="edificio" name="edificio" required <#if (aula)??> value="${aula.edificio}" </#if> />
+                    </div>
+
+                    <div class="form-group">
+                        <h5 for="piano" class="form-label mt-4">
+                            <span class="badge bg-secondary">Piano</span>
+                        </h5>
+                        <input type="number" class="form-control" id="piano" name="piano" required <#if (aula)??> value="${aula.piano}" </#if> />
+                    </div>
+
+                    <div class="form-group">
+                        <h5 for="capienza" class="form-label mt-4">
+                            <span class="badge bg-secondary">Capienza</span>
+                        </h5>
+                        <input type="number" class="form-control" id="capienza" name="capienza" required <#if (aula)??> value="${aula.capienza}" </#if> />
+                    </div>
+
+                    <div class="form-group">
+                        <h5 for="emailResponsabile" class="form-label mt-4">
+                            <span class="badge bg-secondary">Email responsabile</span>
+                        </h5>
+                        <input type="email" class="form-control" id="emailResponsabile" name="emailResponsabile" required <#if (aula)??> value="${aula.emailResponsabile}" </#if> />
+                    </div>
+
+                    <div class="form-group">
+                        <h5 for="note" class="form-label mt-4">
+                            <span class="badge bg-secondary">Note</span>
+                        </h5>
+                        <input type="text" class="form-control" id="note" name="note" required <#if (aula)??> value="${aula.note}" </#if> />
+                    </div>
+
+                    <div class="form-group">
+                        <h5 for="preseElettriche" class="form-label mt-4">
+                            <span class="badge bg-secondary">Prese elettriche</span>
+                        </h5>
+                        <input type="number" class="form-control" id="preseElettriche" name="preseElettriche" required <#if (aula)??> value="${aula.n_PreseRete}" </#if> />
+                    </div>
+
+                    <div class="form-group">
+                        <h5 for="preseRete" class="form-label mt-4">
+                            <span class="badge bg-secondary">Prese di rete</span>
+                        </h5>
+                        <input type="number" class="form-control" id="preseRete" name="preseRete" required <#if (aula)??> value="${aula.n_PreseElettriche}" </#if> />
+                    </div>
+
+                    <!-- il gruppo non funziona nè così e neanche nel form -->
+                    <div class="form-group">
+                        <h5 for="selectGruppo" class="form-label mt-4">
+                            <span class="badge bg-secondary">Gruppo</span>
+                        </h5>
+                        <select class="form-select" id="selectGruppo">
+                            <#list gruppi as group>
+                                <option value="${group.key}" <#if (aula)??>
+                                    <#if group.nome=aula.nome> selected </#if>
+                                    </#if> >${group.nome}
+                                </option>
+                            </#list>
+                        </select>
+                    </div>
+
+                    <h6>manca aggiunta di attrezzatura </h6>
+
+                    <!-- ------------------------------------------------------------- -->
+
+
+                    <div style="margin-top: 50px; display: flex; justify-content: center;">
+                        <button class="btn btn-success">CONFERMA</button>
+                    </div>
+            </form>
+            <#if (aula)??>
+                <div style="margin-top: 50px; display: flex; justify-content: center;">
+                    <button class="btn btn-danger" onclick="eliminaAula()">ELIMINA</button>
+                </div>
+            </#if>
+        </div>
+
+        <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://bootswatch.com/_vendor/prismjs/prism.js" data-manual></script>
+        <script src="https://bootswatch.com/_assets/js/custom.js"></script>
+        <script src="script/adminAula.js"></script>
+</body>
+
+</html>

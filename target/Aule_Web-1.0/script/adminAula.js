@@ -9,3 +9,11 @@ var tableRows = document.querySelectorAll("table tbody tr");
 tableRows.forEach(function (row) {
    row.addEventListener("click", handleTableRowClick);
 });
+
+function eliminaAula() {
+   var urlParams = new URLSearchParams(window.location.search); // Ottieni i parametri dell'URL
+   var aulaValue = urlParams.get("aula"); // Ottieni il valore del parametro "aula"
+   var currentPath = window.location.href; // Ottieni il percorso attuale
+   var newPath = currentPath + "&delete=" + aulaValue; // Aggiungi "&delete=X" al percorso attuale
+   window.location.href = newPath; // Reindirizza alla nuova pagina
+}

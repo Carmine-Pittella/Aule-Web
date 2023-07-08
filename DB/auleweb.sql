@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS Aula (
     n_prese_rete INT NOT NULL,
     n_prese_elettriche INT NOT NULL,
     note VARCHAR(255) NOT NULL,
-    id_gruppo INT NOT NULL,
+    id_gruppo INT,
     version INT UNSIGNED NOT NULL DEFAULT 1,
     UNIQUE (nome, luogo, edificio, piano),
     FOREIGN KEY (id_gruppo) REFERENCES Gruppo(id)
