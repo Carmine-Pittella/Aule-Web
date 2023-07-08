@@ -1,6 +1,9 @@
 
 package it.univaq.f4i.iw.Aule_Web.controller;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,8 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.univaq.f4i.iw.Aule_Web.data.dao.AuleWebDataLayer;
+import it.univaq.f4i.iw.Aule_Web.data.impl.AulaImpl;
+import it.univaq.f4i.iw.Aule_Web.data.impl.EventoImpl;
+import it.univaq.f4i.iw.Aule_Web.data.impl.TipologiaEvento;
+import it.univaq.f4i.iw.Aule_Web.data.impl.TipologiaRicorrenza;
+import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento_Ricorrente;
+import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
 import it.univaq.f4i.iw.framework.data.DataException;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -37,6 +46,142 @@ public class eventiAdminServlet extends AuleWebBaseController {
             e.printStackTrace();
         }
     }
+
+    private void action_modifica(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+            Evento evento = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao()
+                    .getEventoById(Integer.parseInt(request.getParameter("evento")));
+            List<Aula> aule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().getListaAule();
+
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("evento", evento);
+            request.setAttribute("aule", aule);
+            request.setAttribute("tipologie", TipologiaEvento.values());
+            request.setAttribute("tipologieRicorrenza", TipologiaRicorrenza.values());
+
+            res.activate("settingEvento.ftl.html", request, response);
+        } catch (TemplateManagerException | NumberFormatException | DataException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void action_aggiungi(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+            List<Aula> aule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().getListaAule();
+
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("aule", aule);
+            request.setAttribute("tipologie", TipologiaEvento.values());
+            request.setAttribute("tipologieRicorrenza", TipologiaRicorrenza.values());
+
+            res.activate("settingEvento.ftl.html", request, response);
+        } catch (TemplateManagerException | DataException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void action_conferma(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+
+        try {
+            if (request.getParameter("nome") == null ||
+                    request.getParameter("dataInizio") == null ||
+                    request.getParameter("dataFine") == null ||
+                    request.getParameter("descrizione") == null ||
+                    request.getParameter("emailResponsabile") == null ||
+                    request.getParameter("selectAula") == null ||
+                    request.getParameter("selectTipologia") == null ||
+                    request.getParameter("nomeCorso") == null ||
+                    request.getParameter("dataFineRicorrenza") == null ||
+                    request.getParameter("selectTipologiaRicorrenza") == null) {
+
+                // errore
+
+            } else {
+
+                Evento evento = new EventoImpl();
+                if (request.getParameter("ID") != null) {
+                    evento.setKey(Integer.parseInt(request.getParameter("ID")));
+                    evento.setVersion(((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao()
+                            .getEventoById(Integer.parseInt(request.getParameter("ID"))).getVersion());
+
+                }
+                Aula aula = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao()
+                        .getAulaById(Integer.parseInt(request.getParameter("selectAula")));
+
+                System.out.println(request.getParameter("selectAula").toString());
+                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                System.out.println(aula.getNome());
+
+                evento.setNome(request.getParameter("nome").toString());
+                evento.setDataInizio(LocalDateTime.parse(request.getParameter("dataInizio").toString()));
+                evento.setDataFine(LocalDateTime.parse(request.getParameter("dataFine").toString()));
+                evento.setDescrizione(request.getParameter("descrizione").toString());
+                evento.setEmailResponsabile(request.getParameter("emailResponsabile").toString());
+                evento.setAula(aula);
+                evento.setTipologiaEvento(TipologiaEvento.valueOf(request.getParameter("selectTipologia")));
+                evento.setNomeCorso(request.getParameter("nomeCorso").toString());
+                evento.setDataFineRicorrenza(LocalDate.parse(request.getParameter("dataFineRicorrenza").toString()));
+                evento.setTipologiaRicorrenza(
+                        TipologiaRicorrenza.valueOf(request.getParameter("selectTipologiaRicorrenza").toString()));
+
+                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                System.out.println(evento.getAula().getNome());
+
+                ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao().storeEvento(evento);
+                response.sendRedirect("eventiAdmin");
+
+            }
+        } catch (IOException | DataException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void action_elimina(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        try {
+            Aula tmp = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao()
+                    .getAulaById(Integer.parseInt(request.getParameter("delete").toString()));
+            ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().deleteAula(tmp);
+            response.sendRedirect("auleAdmin");
+        } catch (DataException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        String urlPath = request.getRequestURI();
+        String s = urlPath.substring(urlPath.lastIndexOf("/") + 1);
+
+        // schermata con tutti gli elementi
+        if (s.equals("eventiAdmin")) {
+            action_default(request, response);
+            return;
+        }
+
+        // è stato premuto il tasto ELIMINA
+        if (request.getParameter("delete") != null) {
+            action_elimina(request, response);
+            return;
+        }
+
+        // è stato premuto il tasto CONFERMA
+        if (request.getParameter("nome") != null) {
+            action_conferma(request, response);
+            return;
+        }
+
+        // schermata aggiunta/modifica
+        if (request.getParameter("evento") != null) {
+            action_modifica(request, response); // modifica
+        } else {
+            action_aggiungi(request, response); // aggiunta
+        }
+
+        // potrebbe essere necessario mettere in ogni servlet per l'admin, un controllo
+        // sull'accesso
+    }
+
+    // ******************************************************* //
 
     private void CompletaListaConEventiRicorrenti(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
@@ -67,12 +212,6 @@ public class eventiAdminServlet extends AuleWebBaseController {
         } catch (DataException e) {
             e.printStackTrace();
         }
-
-    }
-
-    @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        action_default(request, response);
     }
 
 }
