@@ -38,6 +38,8 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
     public AulaDaoMySQL(DataLayer d) {
         super(d);
         attrezzaturaRelazioneDAO = (AttrezzaturaRelazioneDao) d.getDAO(Attrezzatura_Relazione.class);
+        if (attrezzaturaRelazioneDAO != null) {
+        }
     }
 
     @Override
@@ -126,9 +128,9 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
             a.setN_PreseRete(rs.getInt("n_prese_rete"));
             a.setPiano(rs.getInt("piano"));
             a.setVersion(rs.getLong("version"));
-            // List<Attrezzatura_Relazione> attrRel = null;
-            // attrRel = attrezzaturaRelazioneDAO.getListaAttrezzaturaByAula(a);
-            // a.setListaAttrezzatura(attrRel);
+            List<Attrezzatura_Relazione> attrRel = new ArrayList<Attrezzatura_Relazione>();
+            attrRel = attrezzaturaRelazioneDAO.getListaAttrezzaturaByAula(a);
+            a.setListaAttrezzatura(attrRel);
 
         } catch (SQLException ex) {
             throw new DataException("Errore in createAula() ", ex);
@@ -375,7 +377,6 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
     public void storeAula(Aula aula) throws DataException {
         try {
             if (aula.getKey() != null && aula.getKey() > 0) {
-                System.out.println("UPDATEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
                 // update
                 if (aula instanceof DataItemProxy && !((DataItemProxy) aula).isModified()) {
                     return;

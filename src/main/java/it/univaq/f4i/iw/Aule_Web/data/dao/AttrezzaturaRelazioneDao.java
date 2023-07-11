@@ -16,6 +16,8 @@ public interface AttrezzaturaRelazioneDao {
 
     Attrezzatura_Relazione createAttrezzaturaRelazione();
 
+    Integer ifExistAulaAttrezzo(Integer id_aula, Integer id_attrezzo) throws DataException;
+
     void storeAttrezzaturaRelazione(Attrezzatura_Relazione attrezzatura_relazione) throws DataException;
 
     void deleteAttrezzaturaRelazione(Attrezzatura_Relazione attrezzatura_relazione) throws DataException;

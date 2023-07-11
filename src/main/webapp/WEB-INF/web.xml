@@ -68,6 +68,10 @@
         <servlet-name>attrezzaturaAdminServlet</servlet-name>
         <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.attrezzaturaAdminServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>logoutServlet</servlet-name>
+        <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.logoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomePageServlet</servlet-name>
         <url-pattern>/HomePage</url-pattern>
@@ -88,6 +92,7 @@
         <servlet-name>auleAdminServlet</servlet-name>
         <url-pattern>/auleAdmin</url-pattern>
         <url-pattern>/settingAula</url-pattern>
+        <url-pattern>/aggiungiAttrezzatura</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>eventiAdminServlet</servlet-name>
@@ -103,6 +108,10 @@
         <servlet-name>attrezzaturaAdminServlet</servlet-name>
         <url-pattern>/attrezzaturaAdmin</url-pattern>
         <url-pattern>/settingAttrezzo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>logoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

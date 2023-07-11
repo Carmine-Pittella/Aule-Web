@@ -14,14 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.univaq.f4i.iw.Aule_Web.data.dao.AuleWebDataLayer;
-import it.univaq.f4i.iw.Aule_Web.data.impl.AulaImpl;
 import it.univaq.f4i.iw.Aule_Web.data.impl.EventoImpl;
 import it.univaq.f4i.iw.Aule_Web.data.impl.TipologiaEvento;
 import it.univaq.f4i.iw.Aule_Web.data.impl.TipologiaRicorrenza;
 import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento_Ricorrente;
-import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
 import it.univaq.f4i.iw.framework.data.DataException;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -80,7 +78,8 @@ public class eventiAdminServlet extends AuleWebBaseController {
         }
     }
 
-    private void action_conferma(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    private void action_conferma(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         try {
             if (request.getParameter("nome") == null ||
@@ -90,9 +89,7 @@ public class eventiAdminServlet extends AuleWebBaseController {
                     request.getParameter("emailResponsabile") == null ||
                     request.getParameter("selectAula") == null ||
                     request.getParameter("selectTipologia") == null ||
-                    request.getParameter("nomeCorso") == null ||
-                    request.getParameter("dataFineRicorrenza") == null ||
-                    request.getParameter("selectTipologiaRicorrenza") == null) {
+                    request.getParameter("nomeCorso") == null) {
 
                 // errore
 
@@ -100,17 +97,16 @@ public class eventiAdminServlet extends AuleWebBaseController {
 
                 Evento evento = new EventoImpl();
                 if (request.getParameter("ID") != null) {
-                    evento.setKey(Integer.parseInt(request.getParameter("ID")));
-                    evento.setVersion(((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao()
-                            .getEventoById(Integer.parseInt(request.getParameter("ID"))).getVersion());
 
+                    Evento tmp = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao()
+                            .getEventoById(Integer.parseInt(request.getParameter("ID").toString()));
+
+                    evento.setKey(Integer.parseInt(request.getParameter("ID")));
+                    evento.setVersion(tmp.getVersion());
                 }
+
                 Aula aula = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao()
                         .getAulaById(Integer.parseInt(request.getParameter("selectAula")));
-
-                System.out.println(request.getParameter("selectAula").toString());
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                System.out.println(aula.getNome());
 
                 evento.setNome(request.getParameter("nome").toString());
                 evento.setDataInizio(LocalDateTime.parse(request.getParameter("dataInizio").toString()));
@@ -120,41 +116,53 @@ public class eventiAdminServlet extends AuleWebBaseController {
                 evento.setAula(aula);
                 evento.setTipologiaEvento(TipologiaEvento.valueOf(request.getParameter("selectTipologia")));
                 evento.setNomeCorso(request.getParameter("nomeCorso").toString());
-                evento.setDataFineRicorrenza(LocalDate.parse(request.getParameter("dataFineRicorrenza").toString()));
-                evento.setTipologiaRicorrenza(
-                        TipologiaRicorrenza.valueOf(request.getParameter("selectTipologiaRicorrenza").toString()));
 
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                System.out.println(evento.getAula().getNome());
-
+                if (!request.getParameter("selectTipologiaRicorrenza").toString().equals("NESSUNA")) {
+                    evento.setDataFineRicorrenza(
+                            LocalDate.parse(request.getParameter("dataFineRicorrenza").toString()));
+                    evento.setTipologiaRicorrenza(
+                            TipologiaRicorrenza.valueOf(request.getParameter("selectTipologiaRicorrenza").toString()));
+                }
                 ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao().storeEvento(evento);
                 response.sendRedirect("eventiAdmin");
-
             }
+
         } catch (IOException | DataException e) {
+            response.sendRedirect("settingEvento?errore=1");
             e.printStackTrace();
         }
     }
 
     private void action_elimina(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            Aula tmp = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao()
-                    .getAulaById(Integer.parseInt(request.getParameter("delete").toString()));
-            ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().deleteAula(tmp);
-            response.sendRedirect("auleAdmin");
+
+            Evento tmp = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao()
+                    .getEventoById(Integer.parseInt(request.getParameter("delete").toString()));
+
+            ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao().deleteEvento(tmp);
+            response.sendRedirect("eventiAdmin");
         } catch (DataException | IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, TemplateManagerException {
         String urlPath = request.getRequestURI();
         String s = urlPath.substring(urlPath.lastIndexOf("/") + 1);
 
         // schermata con tutti gli elementi
         if (s.equals("eventiAdmin")) {
             action_default(request, response);
+            return;
+        }
+
+        // Errore
+        if (request.getParameter("errore") != null) {
+            request.setAttribute("errore", true);
+            TemplateResult res = new TemplateResult(getServletContext());
+            res.activate("settingEvento.ftl.html", request, response);
             return;
         }
 

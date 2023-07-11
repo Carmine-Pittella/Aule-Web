@@ -17,3 +17,9 @@ function eliminaAula() {
    var newPath = currentPath + "&delete=" + aulaValue; // Aggiungi "&delete=X" al percorso attuale
    window.location.href = newPath; // Reindirizza alla nuova pagina
 }
+
+function aggiungiAttrezzatura() {
+   var urlParams = new URLSearchParams(window.location.search); // Ottieni i parametri dell'URL
+   var aulaValue = urlParams.get("aula"); // Ottieni il valore del parametro "aula"
+   window.location.href = "aggiungiAttrezzatura?aula=" + aulaValue; // Reindirizza alla nuova pagina
+}

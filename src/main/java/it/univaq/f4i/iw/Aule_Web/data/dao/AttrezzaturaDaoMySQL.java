@@ -161,6 +161,7 @@ public class AttrezzaturaDaoMySQL extends DAO implements AttrezzaturaDao {
                 // insert
                 insertAttrezzatura.setString(1, attrezzatura.getNomeAttrezzo());
                 insertAttrezzatura.setString(2, attrezzatura.getDescrizione());
+                insertAttrezzatura.setInt(3, 1);
                 // version default = 1
 
                 if (insertAttrezzatura.executeUpdate() == 1) {

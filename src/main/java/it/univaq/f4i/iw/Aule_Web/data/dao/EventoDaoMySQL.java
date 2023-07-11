@@ -323,6 +323,7 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
                 if (evento instanceof DataItemProxy && !((DataItemProxy) evento).isModified()) {
                     return;
                 }
+
                 uEvento.setString(1, evento.getDataInizio().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                 uEvento.setString(2, evento.getDataFine().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                 uEvento.setString(3, evento.getNome());

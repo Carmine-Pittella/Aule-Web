@@ -14,6 +14,7 @@ import it.univaq.f4i.iw.framework.data.DataItemImpl;
 public class Attrezzatura_RelazioneImpl extends DataItemImpl<Integer> implements Attrezzatura_Relazione {
 
     private Aula aula;
+    private Integer id_aula;
     private Attrezzatura attrezzo;
     private Integer quantita;
 
@@ -47,6 +48,16 @@ public class Attrezzatura_RelazioneImpl extends DataItemImpl<Integer> implements
     @Override
     public void setQuantita(Integer quantita) {
         this.quantita = quantita;
+    }
+
+    @Override
+    public Integer getIdAula() {
+        return id_aula;
+    }
+
+    @Override
+    public void setIdAula(Integer id_aula) {
+        this.id_aula = id_aula;
     }
 
     // METODI

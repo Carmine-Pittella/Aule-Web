@@ -7,11 +7,14 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import it.univaq.f4i.iw.Aule_Web.data.dao.AuleWebDataLayer;
+import it.univaq.f4i.iw.Aule_Web.data.impl.Attrezzatura_RelazioneImpl;
 import it.univaq.f4i.iw.Aule_Web.data.impl.AulaImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura;
+import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura_Relazione;
 import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
 import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
 import it.univaq.f4i.iw.framework.data.DataException;
@@ -122,6 +125,88 @@ public class auleAdminServlet extends AuleWebBaseController {
         }
     }
 
+    // 77777777777777777777777777777777777777777777
+
+    private void action_aggiungiAttrezzatura(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException {
+        try {
+            Aula aula = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao()
+                    .getAulaById(Integer.parseInt(request.getParameter("aula").toString()));
+            TemplateResult res = new TemplateResult(getServletContext());
+            request.setAttribute("aula", aula);
+
+            // lista posseduti
+            List<Attrezzatura_Relazione> posseduti = aula.getListaAttrezzatura();
+            request.setAttribute("posseduti", posseduti);
+
+            // lista completa atttrezzatura
+            List<Attrezzatura> attrezzatura = ((AuleWebDataLayer) request.getAttribute("datalayer"))
+                    .getAttrezzaturaDao().getListaAttrezzatura();
+            request.setAttribute("attrezzatura", attrezzatura);
+            res.activate("aggiungiAttrezzatura.ftl.html", request, response);
+
+        } catch (DataException | TemplateManagerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void action_aggiungiAttrezzo(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException {
+        try {
+            int id_aula = Integer.parseInt(request.getParameter("aula").toString());
+            int id_attrezzo = Integer.parseInt(request.getParameter("selectAttrezzo").toString());
+            int quantita = Integer.parseInt(request.getParameter("quantita").toString());
+
+            Aula aula = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().getAulaById(id_aula);
+
+            Attrezzatura attrezzo = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAttrezzaturaDao()
+                    .getAttrezzaturaById(id_attrezzo);
+
+            Attrezzatura_Relazione attrRel = new Attrezzatura_RelazioneImpl();
+            attrRel.setAula(aula);
+            attrRel.setAttrezzo(attrezzo);
+            attrRel.setQuantita(quantita);
+
+            Integer idFORSE = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAttrezzaturaRelazioneDao()
+                    .ifExistAulaAttrezzo(id_aula, id_attrezzo);
+
+            if (idFORSE != null) {
+                Attrezzatura_Relazione tmp = ((AuleWebDataLayer) request.getAttribute("datalayer"))
+                        .getAttrezzaturaRelazioneDao().getAttrezzaturaRelazioneById(idFORSE);
+                attrRel.setKey(tmp.getKey());
+                attrRel.setVersion(tmp.getVersion());
+            }
+            ((AuleWebDataLayer) request.getAttribute("datalayer")).getAttrezzaturaRelazioneDao()
+                    .storeAttrezzaturaRelazione(attrRel);
+
+            response.sendRedirect("aggiungiAttrezzatura?aula=" + id_aula);
+
+        } catch (DataException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void action_eliminaAttrezzo(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException {
+        try {
+            // trovo
+            int id_aula = Integer.parseInt(request.getParameter("aula").toString());
+            int id_attrezzo = Integer.parseInt(request.getParameter("deleteAttrezzo").toString());
+
+            Attrezzatura_Relazione tmp = ((AuleWebDataLayer) request.getAttribute("datalayer"))
+                    .getAttrezzaturaRelazioneDao().getAttrezzaturaRelazioneById(id_attrezzo);
+
+            if (tmp != null) {
+                ((AuleWebDataLayer) request.getAttribute("datalayer")).getAttrezzaturaRelazioneDao()
+                        .deleteAttrezzaturaRelazione(tmp);
+                response.sendRedirect("aggiungiAttrezzatura?aula=" + id_aula);
+            }
+
+        } catch (DataException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String urlPath = request.getRequestURI();
@@ -130,6 +215,22 @@ public class auleAdminServlet extends AuleWebBaseController {
         // schermata con tutti gli elementi
         if (s.equals("auleAdmin")) {
             action_default(request, response);
+            return;
+        }
+
+        // schermata con tutti gli elementi
+        if (s.equals("aggiungiAttrezzatura")) {
+            if (request.getParameter("deleteAttrezzo") != null) {
+                action_eliminaAttrezzo(request, response);
+                return;
+            }
+            if (request.getParameter("aula") != null &&
+                    request.getParameter("selectAttrezzo") != null &&
+                    request.getParameter("quantita") != null) {
+                action_aggiungiAttrezzo(request, response);
+                return;
+            }
+            action_aggiungiAttrezzatura(request, response);
             return;
         }
 

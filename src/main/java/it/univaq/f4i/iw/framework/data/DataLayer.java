@@ -8,12 +8,14 @@ import javax.sql.DataSource;
 
 import it.univaq.f4i.iw.Aule_Web.data.dao.AmministratoreDaoMySQL;
 import it.univaq.f4i.iw.Aule_Web.data.dao.AttrezzaturaDaoMySQL;
+import it.univaq.f4i.iw.Aule_Web.data.dao.AttrezzaturaRelazioneDaoMySQL;
 import it.univaq.f4i.iw.Aule_Web.data.dao.AulaDaoMySQL;
 import it.univaq.f4i.iw.Aule_Web.data.dao.EventoDaoMySQL;
 import it.univaq.f4i.iw.Aule_Web.data.dao.EventoRicorrenteDaoMySQL;
 import it.univaq.f4i.iw.Aule_Web.data.dao.GruppoDaoMySQL;
 import it.univaq.f4i.iw.Aule_Web.data.model.Amministratore;
 import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura;
+import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura_Relazione;
 import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
 import it.univaq.f4i.iw.Aule_Web.data.model.Evento_Ricorrente;
@@ -45,6 +47,7 @@ public class DataLayer implements AutoCloseable {
 
     public void init() throws DataException {
         registerDAO(Attrezzatura.class, new AttrezzaturaDaoMySQL(this));
+        registerDAO(Attrezzatura_Relazione.class, new AttrezzaturaRelazioneDaoMySQL(this));
         registerDAO(Aula.class, new AulaDaoMySQL(this));
         registerDAO(Evento.class, new EventoDaoMySQL(this));
         registerDAO(Gruppo.class, new GruppoDaoMySQL(this));

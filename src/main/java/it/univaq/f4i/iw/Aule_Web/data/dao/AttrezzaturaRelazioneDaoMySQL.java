@@ -4,6 +4,7 @@ package it.univaq.f4i.iw.Aule_Web.data.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +27,16 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
 
     private PreparedStatement selectAttrezzaturaRelazioneById,
             selectIdAttrezzaturaRelazione,
+            ifExistAulaAttrezzo,
             insertAttrezzaturaRelazione,
             updateAttrezzaturaRelazione,
             deleteAttrezzaturaRelazione;
 
+    private final AttrezzaturaDao attrezzaturaDao;
+
     public AttrezzaturaRelazioneDaoMySQL(DataLayer d) {
         super(d);
+        attrezzaturaDao = (AttrezzaturaDao) d.getDAO(Attrezzatura.class);
     }
 
     @Override
@@ -42,19 +47,22 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
                     .prepareStatement("SELECT * FROM attrezzatura_relazione WHERE id = ?");
             selectIdAttrezzaturaRelazione = connection
                     .prepareStatement("SELECT Id AS idAttRel FROM attrezzatura_relazione");
-            insertAttrezzaturaRelazione = connection
+            ifExistAulaAttrezzo = connection
                     .prepareStatement(
-                            "INSERT INTO attrezzatura_relazione (id_aula,id_attrezzo,quantita,version) VALUES (?,?,?,?)");
-            updateAttrezzaturaRelazione = connection
-                    .prepareStatement(
-                            "UPDATE attrezzatura_relazione SET id_aula=?,id_attrezzo=?,quantita=?,version=?) WHERE Id=?");
+                            "SELECT Id AS idAttRel FROM attrezzatura_relazione WHERE id_aula=? AND id_attrezzo=?");
+            insertAttrezzaturaRelazione = connection.prepareStatement(
+                    "INSERT INTO attrezzatura_relazione (id_aula, id_attrezzo, quantita, version) VALUES (?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            updateAttrezzaturaRelazione = connection.prepareStatement(
+                    "UPDATE attrezzatura_relazione SET id_aula=?, id_attrezzo=?, quantita=?, version=? WHERE Id=?",
+                    Statement.RETURN_GENERATED_KEYS);
+
             deleteAttrezzaturaRelazione = connection
                     .prepareStatement(
                             "DELETE FROM attrezzatura_relazione WHERE Id=?");
         } catch (Exception e) {
             throw new DataException("Errore in init() AttrezzaturaRelazioneDaoMySQL", e);
         }
-
     }
 
     @Override
@@ -63,6 +71,7 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
             selectAttrezzaturaRelazioneById.close();
             selectIdAttrezzaturaRelazione.close();
             insertAttrezzaturaRelazione.close();
+            ifExistAulaAttrezzo.close();
             updateAttrezzaturaRelazione.close();
             deleteAttrezzaturaRelazione.close();
 
@@ -81,10 +90,11 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
         AttrezzaturaRelazioneProxy a = (AttrezzaturaRelazioneProxy) createAttrezzaturaRelazione();
         try {
             a.setKey(rs.getInt("id"));
-            a.setKey(rs.getInt("id_aula"));
-            a.setKey(rs.getInt("id_attrezzo"));
-            a.setKey(rs.getInt("quantita"));
-            a.setKey(rs.getInt("version"));
+            a.setIdAula(rs.getInt("id_aula"));
+            Attrezzatura attrezzo = attrezzaturaDao.getAttrezzaturaById(rs.getInt("id_attrezzo"));
+            a.setAttrezzo(attrezzo);
+            a.setQuantita(rs.getInt("quantita"));
+            a.setVersion(rs.getInt("version"));
         } catch (SQLException e) {
             throw new DataException("Errore durante la creazione di un'Attrezzatura_Relazione ", e);
         }
@@ -118,7 +128,7 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
         try {
             try (ResultSet rs = selectIdAttrezzaturaRelazione.executeQuery()) {
                 while (rs.next()) {
-                    lista.add((Attrezzatura_Relazione) getAttrezzaturaRelazioneById(rs.getInt("idAttrezzatura")));
+                    lista.add((Attrezzatura_Relazione) getAttrezzaturaRelazioneById(rs.getInt("idAttRel")));
                 }
             }
         } catch (SQLException e) {
@@ -133,7 +143,7 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
         try {
             List<Attrezzatura_Relazione> listaCompleta = getListaAttrezzaturaRelazione();
             for (int i = 0; i < listaCompleta.size(); i++) {
-                if (listaCompleta.get(i).getAula().getKey() == aula.getKey()) {
+                if (listaCompleta.get(i).getIdAula() == aula.getKey()) {
                     listaAttrezzatura.add(listaCompleta.get(i));
                 }
             }
@@ -172,9 +182,8 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
                 updateAttrezzaturaRelazione.setInt(1, attrezzatura_relazione.getAula().getKey());
                 updateAttrezzaturaRelazione.setInt(2, attrezzatura_relazione.getAttrezzo().getKey());
                 updateAttrezzaturaRelazione.setInt(3, attrezzatura_relazione.getQuantita());
-                updateAttrezzaturaRelazione.setLong(4, attrezzatura_relazione.getVersion()); // current
-                updateAttrezzaturaRelazione.setLong(5, attrezzatura_relazione.getVersion() + 1); // next
-                updateAttrezzaturaRelazione.setLong(6, attrezzatura_relazione.getKey());
+                updateAttrezzaturaRelazione.setLong(4, attrezzatura_relazione.getVersion() + 1); // next
+                updateAttrezzaturaRelazione.setInt(5, attrezzatura_relazione.getKey());
 
                 if (updateAttrezzaturaRelazione.executeUpdate() == 0) {
                     throw new OptimisticLockException(attrezzatura_relazione);
@@ -187,6 +196,7 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
                 insertAttrezzaturaRelazione.setInt(1, attrezzatura_relazione.getAula().getKey());
                 insertAttrezzaturaRelazione.setInt(2, attrezzatura_relazione.getAttrezzo().getKey());
                 insertAttrezzaturaRelazione.setInt(3, attrezzatura_relazione.getQuantita());
+                insertAttrezzaturaRelazione.setInt(4, 1);
                 // version default = 1
 
                 if (insertAttrezzaturaRelazione.executeUpdate() == 1) {
@@ -219,6 +229,22 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
             }
         } catch (SQLException | OptimisticLockException e) {
             throw new DataException("Errore in deleteAttrezzaturaRelazione() ", e);
+        }
+    }
+
+    @Override
+    public Integer ifExistAulaAttrezzo(Integer id_aula, Integer id_attrezzo) throws DataException {
+        try {
+            ifExistAulaAttrezzo.setInt(1, id_aula);
+            ifExistAulaAttrezzo.setInt(2, id_attrezzo);
+            try (ResultSet rs = ifExistAulaAttrezzo.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("idAttRel");
+                }
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new DataException("Nessuna AttrezzaturaRelazione trovata ", e);
         }
     }
 

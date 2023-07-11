@@ -110,20 +110,19 @@
                         </select>
                     </div>
 
-                    <h6>manca aggiunta di attrezzatura </h6>
-
                     <!-- ------------------------------------------------------------- -->
-
 
                     <div style="margin-top: 50px; display: flex; justify-content: center;">
                         <button class="btn btn-success">CONFERMA</button>
+                        <#if (aula)??>
+                            <button style="margin-left: 30px;" class="btn btn-danger" type="button" onclick="eliminaAula()">ELIMINA</button>
+                        </#if>
+                        <#if (aula)??>
+                            <button style="margin-left: 30px;" class="btn btn-primary" type="button" onclick="aggiungiAttrezzatura()">AGGIUNGI ATTREZZATURA</button>
+                        </#if>
                     </div>
             </form>
-            <#if (aula)??>
-                <div style="margin-top: 50px; display: flex; justify-content: center;">
-                    <button class="btn btn-danger" onclick="eliminaAula()">ELIMINA</button>
-                </div>
-            </#if>
+
         </div>
 
         <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

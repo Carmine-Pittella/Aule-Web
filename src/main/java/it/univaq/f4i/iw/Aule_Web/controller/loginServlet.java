@@ -48,6 +48,7 @@ public class loginServlet extends AuleWebBaseController {
                         res.activate("areaAdmin.ftl.html", request, response);
                     } else {
                         TemplateResult res = new TemplateResult(getServletContext());
+                        request.setAttribute("errore", true);
                         res.activate("login.ftl.html", request, response);
                     }
                 } else {

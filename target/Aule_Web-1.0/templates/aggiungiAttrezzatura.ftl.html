@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_vendor/prismjs/themes/prism-okaidia.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css" />
+    <title>aggiungi attrezzatura</title>
+    <style>
+        .container {
+            display: flex;
+        }
+
+        .half-width {
+            width: 50%;
+            /* border: 1px solid rgba(43, 43, 43, 0.389); */
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <#include "barraAdmin.ftl.html">
+
+        <!-- body -->
+        <h1 id="buttons" style="text-align: center; margin-bottom: 30px">
+            Aggiungi attrezzatura per:
+            <span class="badge rounded-pill bg-primary">${aula.nome}</span>
+        </h1>
+        <div class="container" style="margin-bottom: 100px; margin-top: 50px;">
+
+            <div class="half-width">
+                <h3 id="buttons" style="text-align: center; margin-bottom: 30px; color: darkgreen;">Attressi posseduti</h3>
+
+                <div class="container" style="margin-top: 55px;">
+                    <table class="table" id="tableAttrezzi">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col" style="width: 60%;">Nome</th>
+                                <th scope="col" style="width: 20%;">Quantita</th>
+                                <th scope="col" style="width: 20%;">Azione</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <#list posseduti as attr>
+                                <tr id="${attr.key}">
+                                    <td>${attr.attrezzo.nomeAttrezzo}</td>
+                                    <td>${attr.quantita}</td>
+                                    <td><button type="button" id="${attr.key}" onclick="eliminaAttrezzo()" class="btn btn-danger">elimina</button></td>
+                                </tr>
+                            </#list>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="half-width">
+                <h3 id="buttons" style="text-align: center; margin-bottom: 30px; color: rgb(255, 101, 12);">Tutti gli attrezzi</h3>
+                <form>
+                    <input type="number" class="form-control" id="aula" name="aula" value="${aula.key}" hidden>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-9">
+                                <h5 for="selectAttrezzo" class="form-label mt-4">
+                                    <span class="badge bg-secondary">Attrezzo</span>
+                                </h5>
+                                <select class="form-select" id="selectAttrezzo" name="selectAttrezzo">
+                                    <#list attrezzatura as attrezzo>
+                                        <option value="${attrezzo.key}">
+                                            ${attrezzo.nomeAttrezzo}
+                                        </option>
+                                    </#list>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <h5 for="quantita" class="form-label mt-4">
+                                    <span class="badge bg-secondary">Quantita</span>
+                                </h5>
+                                <input type="number" class="form-control" id="quantita" name="quantita" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 50px; display: flex; justify-content: right;">
+                        <button class="btn btn-success">CONFERMA</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://bootswatch.com/_vendor/prismjs/prism.js" data-manual></script>
+        <script src="https://bootswatch.com/_assets/js/custom.js"></script>
+        <script src="script/utility.js"></script>
+</body>
+
+</html>
