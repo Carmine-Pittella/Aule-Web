@@ -1,11 +1,13 @@
 
 package it.univaq.f4i.iw.Aule_Web.controller;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import it.univaq.f4i.iw.Aule_Web.data.dao.AuleWebDataLayer;
 import it.univaq.f4i.iw.Aule_Web.data.model.Amministratore;
@@ -65,6 +67,18 @@ public class loginServlet extends AuleWebBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+
+        // controllo auth
+        HttpSession auth = request.getSession(false);
+        if (auth != null) {
+            try {
+                response.sendRedirect("auleAdmin");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
         try {
             if (request.getParameter("login") != null) {
                 action_login(request, response);
