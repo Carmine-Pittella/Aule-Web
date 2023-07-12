@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import it.univaq.f4i.iw.Aule_Web.data.dao.AuleWebDataLayer;
 import it.univaq.f4i.iw.Aule_Web.data.impl.GruppoImpl;
@@ -95,6 +96,18 @@ public class gruppiAdminServlet extends AuleWebBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String urlPath = request.getRequestURI();
         String s = urlPath.substring(urlPath.lastIndexOf("/") + 1);
+
+        // controllo auth
+        HttpSession auth = request.getSession(false);
+        if (auth == null) {
+            try {
+                TemplateResult res = new TemplateResult(getServletContext());
+                res.activate("error.ftl.html", request, response);
+            } catch (TemplateManagerException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
 
         // schermata con tutti gli elementi
         if (s.equals("gruppiAdmin")) {

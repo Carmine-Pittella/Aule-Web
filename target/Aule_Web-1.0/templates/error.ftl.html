@@ -1,0 +1,112 @@
+<html lang="en" class="">
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>CodePen Demo</title>
+
+  <meta name="robots" content="noindex">
+
+  <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  <link rel="mask-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
+  <link rel="canonical" href="https://codepen.io/Kxrl/pen/BOPNXN">
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <style id="INLINE_PEN_STYLESHEET_ID">
+    body {
+      background-color: #333333;
+      width: 100vw;
+      height: 100vh;
+      color: white;
+      font-family: "Arial Black";
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .error-num {
+      font-size: 8em;
+    }
+
+    .eye {
+      background: #fff;
+      border-radius: 50%;
+      display: inline-block;
+      height: 100px;
+      position: relative;
+      width: 100px;
+    }
+
+    .eye::after {
+      background: #000;
+      border-radius: 50%;
+      bottom: 56.1px;
+      content: "";
+      height: 33px;
+      position: absolute;
+      right: 33px;
+      width: 33px;
+    }
+
+    p {
+      margin-bottom: 4em;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    a:hover {
+      color: lightgray;
+    }
+  </style>
+
+
+  <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeConsoleRunner-6bce046e7128ddf9391ccf7acbecbf7ce0cbd7b6defbeb2e217a867f51485d25.js"></script>
+  <style>
+    undefined
+  </style>
+  <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-44fe83e49b63affec96918c9af88c0d80b209a862cf87ac46bc933074b8c557d.js"></script>
+  <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRuntimeErrors-4f205f2c14e769b448bcf477de2938c681660d5038bc464e3700256713ebe261.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="true">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&amp;display=swa">
+</head>
+
+<body>
+  <div>
+    <span class="error-num">4</span>
+    <div class="eye" style="transform: rotate(84.0585deg);"></div>
+    <span class="error-num">1</span>
+    <p class="sub-text">Non hai le AUTORIZZAZIONI per accedere a questa pagina !!</p>
+    <a href="HomePage">torna alla homepage</a><br><br>
+    <a href="login">effettua l'accesso</a>
+  </div>
+
+  <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdpn.io/cpe/boomboom/pen.js?key=pen.js-381236ac-9592-af98-1977-fafdc19d1969" crossorigin=""></script>
+  <script>
+    $('body').mousemove(function (event) {
+      var e = $('.eye');
+      var x = (e.offset().left) + (e.width() / 2);
+      var y = (e.offset().top) + (e.height() / 2);
+      var rad = Math.atan2(event.pageX - x, event.pageY - y);
+      var rot = (rad * (180 / Math.PI) * -1) + 180;
+      e.css({
+        '-webkit-transform': 'rotate(' + rot + 'deg)',
+        'transform': 'rotate(' + rot + 'deg)'
+      });
+    });
+  </script>
+
+
+</body>
+
+</html>

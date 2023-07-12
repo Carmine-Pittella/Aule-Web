@@ -3,18 +3,14 @@ package it.univaq.f4i.iw.Aule_Web.controller;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.ServletException;
-
 import it.univaq.f4i.iw.Aule_Web.data.dao.AuleWebDataLayer;
 import it.univaq.f4i.iw.Aule_Web.data.impl.AttrezzaturaImpl;
-import it.univaq.f4i.iw.Aule_Web.data.impl.GruppoImpl;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura;
-import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
 import it.univaq.f4i.iw.framework.data.DataException;
 import it.univaq.f4i.iw.framework.result.TemplateManagerException;
 import it.univaq.f4i.iw.framework.result.TemplateResult;
@@ -100,6 +96,18 @@ public class attrezzaturaAdminServlet extends AuleWebBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         String urlPath = request.getRequestURI();
         String s = urlPath.substring(urlPath.lastIndexOf("/") + 1);
+
+        // controllo auth
+        HttpSession auth = request.getSession(false);
+        if (auth == null) {
+            try {
+                TemplateResult res = new TemplateResult(getServletContext());
+                res.activate("error.ftl.html", request, response);
+            } catch (TemplateManagerException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
 
         // schermata con tutti gli elementi
         if (s.equals("attrezzaturaAdmin")) {

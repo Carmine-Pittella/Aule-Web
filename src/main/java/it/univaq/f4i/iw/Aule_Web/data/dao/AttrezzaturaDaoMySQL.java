@@ -145,12 +145,10 @@ public class AttrezzaturaDaoMySQL extends DAO implements AttrezzaturaDao {
                 if (attrezzatura instanceof DataItemProxy && !((DataItemProxy) attrezzatura).isModified()) {
                     return;
                 }
-
                 updateAttrezzatura.setString(1, attrezzatura.getNomeAttrezzo());
                 updateAttrezzatura.setString(2, attrezzatura.getDescrizione());
-                updateAttrezzatura.setLong(3, attrezzatura.getVersion()); // current
-                updateAttrezzatura.setLong(4, attrezzatura.getVersion() + 1); // next
-                updateAttrezzatura.setInt(5, attrezzatura.getKey());
+                updateAttrezzatura.setLong(3, attrezzatura.getVersion() + 1); // next
+                updateAttrezzatura.setInt(4, attrezzatura.getKey());
 
                 if (updateAttrezzatura.executeUpdate() == 0) {
                     throw new OptimisticLockException(attrezzatura);
