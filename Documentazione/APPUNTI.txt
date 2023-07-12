@@ -1,1 +1,3 @@
 Mancano le query sulle date nella HomePageServlet
+
+Manca la parte per scaricare il file gli eventi (Apache CSV)
