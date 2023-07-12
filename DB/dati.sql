@@ -45,11 +45,11 @@ INSERT INTO `attrezzatura` (`id`, `nome_attrezzo`, `descrizione`, `version`) VAL
 (2, 'Schermo Motorizzato', 'Simile a una televisione ma si collegano i PC', 1),
 (3, 'Schermo Manuale', 'Descrizione schermo manuale', 1),
 (4, 'Impianto Audio', 'Attrezzatura acustica per sentire chiaramente', 1),
-(6, 'PC Fisso', 'Computer fisso collegato alla rete elettrica', 1),
-(7, 'Microfono a Filo', 'Dispositivo per amplificare il suono della voce', 1),
-(8, 'Microfono senza Filo', 'Dispositivo per amplificare il suono della voce', 1),
-(9, 'Lavagna Luminosa', 'Lavagna multimediale touchscreen', 1),
-(10, 'WiFi', 'Connessione a internet', 1);
+(5, 'PC Fisso', 'Computer fisso collegato alla rete elettrica', 1),
+(6, 'Microfono a Filo', 'Dispositivo per amplificare il suono della voce', 1),
+(7, 'Microfono senza Filo', 'Dispositivo per amplificare il suono della voce', 1),
+(8, 'Lavagna Luminosa', 'Lavagna multimediale touchscreen', 1),
+(9, 'WiFi', 'Connessione a internet', 1);
 
 
 -- -- attrezzatura relazione

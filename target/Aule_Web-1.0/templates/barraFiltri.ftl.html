@@ -51,16 +51,23 @@
          </select>
       </div>
 
-      <!-- data inizio -->
       <div>
-         <label for="data" style="color: aliceblue;">Data inizio:</label><br>
-         <input type="date" id="dataInizio" name="dataInizio">
+         <!-- data inizio -->
+         <label for="data" style="color: aliceblue;">Data inizio:</label>
+         <input type="date" id="dataInizio" name="dataInizio" value<#if dataInizio??>="${dataInizio}"</#if>><br>
+         <!-- data fine -->
+         <label for="data" style="color: aliceblue;">Data fine: </label>
+         <input type="date" id="dataFine" name="dataFine" value<#if dataFine??>="${dataFine}"</#if>>
       </div>
 
-      <!-- data fine -->
+      <!-- eventi attuali -->
       <div>
-         <label for="data" style="color: aliceblue;">Data fine:</label><br>
-         <input type="date" id="dataFine" name="dataFine">
+         <button type="button" id="EventiAttuali" class="btn btn-light" onclick="EventiAttuali()">Eventi<br>attuali</button>
+      </div>
+
+      <!-- eventi nelle prossime 3 ore -->
+      <div>
+         <button type="button" id="EventiTreOre" class="btn btn-light" onclick="EventiTreOre()">Eventi nelle<br>prossime 3 ore</button>
       </div>
 
       <!-- login -->

@@ -60,13 +60,9 @@ public class EventoDaoMySQL extends DAO implements EventoDao {
             sEventiByGruppo = connection.prepareStatement(
                     "SELECT e.Id AS eventoId FROM Evento e JOIN Aula a ON e.id_aula = a.id WHERE a.id_gruppo = ?");
             sCorsi = connection.prepareStatement("SELECT DISTINCT nome_corso FROM evento WHERE nome_corso IS NOT NULL");
-
-            //
             sCorsiGruppo = connection.prepareStatement("SELECT DISTINCT evento.nome_corso "
                     + "FROM evento JOIN aula ON evento.Id_aula = aula.Id JOIN gruppo_aula ON aula.Id = gruppo_aula.Id_aula JOIN gruppo ON gruppo_aula.Id_gruppo = gruppo.Id "
                     + "WHERE gruppo.nome = ? AND nome_corso IS NOT NULL");
-
-            //
             sResponsabili = connection.prepareStatement("SELECT DISTINCT email_responsabile FROM evento");
             iEvento = connection.prepareStatement("INSERT "
                     + "INTO evento (data_inizio,data_fine,nome,descrizione,email_responsabile,Id_aula,tipologia,nome_corso,tipo_ricorrenza,data_fine_ricorrenza) "
