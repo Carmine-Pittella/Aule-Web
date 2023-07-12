@@ -169,6 +169,17 @@ public class HomePageServlet extends AuleWebBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+
+        if (request.getParameter("csv") != null) {
+            System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+            try {
+                action_download(request, response);
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         action_barra_filtri(request, response);
         action_default(request, response);
 
@@ -202,14 +213,6 @@ public class HomePageServlet extends AuleWebBaseController {
         // aggiungo alla lista gli eventi ricorrenti
         CompletaListaConEventiRicorrenti(request, response);
 
-        if (request.getParameter("csv") != null) {
-            try {
-                action_download(request, response);
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         try {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("eventi", eventi);
