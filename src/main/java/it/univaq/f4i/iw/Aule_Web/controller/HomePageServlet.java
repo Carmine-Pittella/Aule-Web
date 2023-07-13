@@ -161,25 +161,23 @@ public class HomePageServlet extends AuleWebBaseController {
     private void action_download(HttpServletRequest request, HttpServletResponse response) throws IOException {
         StreamResult result = new StreamResult(getServletContext());
         CSVWriter w = new CSVWriter();
-        w.csv_time(eventi, getServletContext().getRealPath(""));
-        URL url = getServletContext().getResource("/" + "csv" + "/" + "eventi_time.csv");
+        w.csv_eventi(eventi, getServletContext().getRealPath(""));
+        URL url = getServletContext().getResource("/" + "csv" + "/" + "eventi.csv");
         result.setResource(url);
         result.activate(request, response);
+
+        String currentURL = request.getRequestURL().toString();
+        String newURL = "";
+        if (currentURL.contains("&csv=1")) {
+            newURL = currentURL.replace("&csv=1", "");
+        } else {
+            newURL = currentURL.replace("?csv=1", "");
+        }
+        response.sendRedirect(newURL);
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-
-        if (request.getParameter("csv") != null) {
-            System.out.println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-            try {
-                action_download(request, response);
-                return;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         action_barra_filtri(request, response);
         action_default(request, response);
 
@@ -213,6 +211,15 @@ public class HomePageServlet extends AuleWebBaseController {
         // aggiungo alla lista gli eventi ricorrenti
         CompletaListaConEventiRicorrenti(request, response);
 
+        if (request.getParameter("csv") != null) {
+            try {
+                action_download(request, response);
+                return;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         try {
             TemplateResult res = new TemplateResult(getServletContext());
             request.setAttribute("eventi", eventi);
@@ -244,8 +251,6 @@ public class HomePageServlet extends AuleWebBaseController {
                 eventiTrasformati.add(ev);
             }
 
-            System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOO: " + eventiTrasformati.size());
-
             // eventi attuali
             if (request.getParameter("eventiAttuali") != null || request.getParameter("eventiTreOre") != null) {
                 if (request.getParameter("eventiAttuali") != null) {
@@ -265,7 +270,6 @@ public class HomePageServlet extends AuleWebBaseController {
                 }
             } else {
 
-                System.out.println("22222222222222222222222: " + eventiTrasformati.size());
                 // Gruppo
                 if (request.getParameter("gruppo") != null) {
                     Gruppo gruppo = ((AuleWebDataLayer) request.getAttribute("datalayer")).getGruppoDao()
@@ -276,7 +280,6 @@ public class HomePageServlet extends AuleWebBaseController {
                     eventiTrasformati.retainAll(eventiByGruppo);
                 }
 
-                System.out.println("33333333333333333333333: " + eventiTrasformati.size());
                 // Aula
                 if (request.getParameter("aula") != null) {
                     Aula aula = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao()
@@ -286,7 +289,6 @@ public class HomePageServlet extends AuleWebBaseController {
                             .getEventiByAula(aula);
                     eventiTrasformati.retainAll(eventiByAula);
                 }
-                System.out.println("4444444444444444444444444444: " + eventiTrasformati.size());
                 // Corso
                 if (request.getParameter("corso") != null) {
                     String corso = request.getParameter("corso");
@@ -295,7 +297,6 @@ public class HomePageServlet extends AuleWebBaseController {
                             .getEventiByCorso(corso);
                     eventiTrasformati.retainAll(eventiByCorso);
                 }
-                System.out.println("555555555555555555555555555: " + eventiTrasformati.size());
                 // range di date
                 if (request.getParameter("dataInizio") != null || request.getParameter("dataFine") != null) {
                     List<Evento> eventiDate;
@@ -312,8 +313,6 @@ public class HomePageServlet extends AuleWebBaseController {
                     eventiTrasformati.retainAll(eventiDate);
                 }
             }
-            System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO " + eventiTrasformati.size());
-
             eventi.addAll(eventiTrasformati);
             Collections.sort(eventi, new Comparator<Evento>() {
                 @Override
@@ -327,4 +326,5 @@ public class HomePageServlet extends AuleWebBaseController {
             e.printStackTrace();
         }
     }
+
 }

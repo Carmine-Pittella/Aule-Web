@@ -72,6 +72,10 @@
         <servlet-name>logoutServlet</servlet-name>
         <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.logoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>uploadServlet</servlet-name>
+        <servlet-class>it.univaq.f4i.iw.Aule_Web.controller.uploadServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomePageServlet</servlet-name>
         <url-pattern>/HomePage</url-pattern>
@@ -112,6 +116,10 @@
     <servlet-mapping>
         <servlet-name>logoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>uploadServlet</servlet-name>
+        <url-pattern>/uploadServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

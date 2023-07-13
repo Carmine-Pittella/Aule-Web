@@ -18,7 +18,7 @@
         <h3 id="buttons" style="text-align: center; margin-bottom: 30px">
             <span class="badge rounded-pill bg-light">Seleziona un'aula per visualizzare/modificare i dettagli</span>
         </h3>
-        <div class="container">
+        <div class="container" style="margin-bottom: 100px;">
             <table class="table table-hover" id="tableAule">
                 <thead>
                     <tr class="table-primary">
@@ -52,6 +52,14 @@
                     <a href="settingAula">
                         <button class="btn btn-primary" name="settingAula" id="settingAula">Aggiungi Aula</button>
                     </a>
+
+                </div>
+
+                <div class="container d-flex">
+                    <form method="post" action="upload" enctype="multipart/form-data">
+                        <input type="file" name="fileconf" />
+                        <input type="submit" name="upload" value="UPLOAD" />
+                    </form>
                 </div>
             </div>
         </div>

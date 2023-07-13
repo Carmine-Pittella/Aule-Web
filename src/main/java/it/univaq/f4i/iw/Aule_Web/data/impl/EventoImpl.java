@@ -159,4 +159,10 @@ public class EventoImpl extends DataItemImpl<Integer> implements Evento, Cloneab
         return this.getKey().compareTo(o.getKey());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Evento tmp = (Evento) obj;
+        return this.getKey() == tmp.getKey();
+    }
+
 }

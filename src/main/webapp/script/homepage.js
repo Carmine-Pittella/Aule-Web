@@ -139,3 +139,11 @@ document.addEventListener("DOMContentLoaded", function () {
    }
    lallero();
 });
+
+function downloadEventi() {
+   let url = new URL(window.location.href);
+   let searchParams = url.searchParams;
+   searchParams.set("csv", 1);
+   url.search = searchParams.toString();
+   window.location.href = url.toString();
+}
