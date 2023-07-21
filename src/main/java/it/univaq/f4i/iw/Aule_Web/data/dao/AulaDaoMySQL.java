@@ -10,7 +10,6 @@ import java.util.List;
 
 import it.univaq.f4i.iw.Aule_Web.data.model.Attrezzatura_Relazione;
 import it.univaq.f4i.iw.Aule_Web.data.model.Aula;
-import it.univaq.f4i.iw.Aule_Web.data.model.Evento;
 import it.univaq.f4i.iw.Aule_Web.data.model.Gruppo;
 import it.univaq.f4i.iw.Aule_Web.data.proxy.AulaProxy;
 import it.univaq.f4i.iw.framework.data.DAO;
@@ -26,12 +25,9 @@ import it.univaq.f4i.iw.framework.data.OptimisticLockException;
 
 public class AulaDaoMySQL extends DAO implements AulaDao {
 
-    private PreparedStatement sAulaById, sAula, sAulaByEvento, sAulaByNome;
-    private PreparedStatement sAule, sAuleByGruppo, sAuleByNPreseRete, sAuleByNPreseElettriche,
-            sAuleByCapienza, sAuleByPiano, sAuleByLuogo, sAuleByEdificio;
-    private PreparedStatement sResponsabili;
-    private PreparedStatement iGruppo, dGruppo;
-    private PreparedStatement iAula, uAula, dAula;
+    private PreparedStatement sAulaById, sAula, sAulaByEvento,
+            sAule, sAuleByGruppo, sResponsabili, iGruppo, dGruppo,
+            iAula, uAula, dAula;
 
     private final AttrezzaturaRelazioneDao attrezzaturaRelazioneDAO;
 
@@ -47,7 +43,6 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
         try {
             super.init();
             sAulaById = connection.prepareStatement("SELECT * FROM aula WHERE Id=?");
-            sAulaByNome = connection.prepareStatement("SELECT * FROM aula WHERE nome=?");
             sAula = connection
                     .prepareStatement("SELECT * FROM aula WHERE nome=? AND edificio=? AND luogo=? AND piano=?");
             sAulaByEvento = connection
@@ -55,14 +50,6 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
             sAule = connection.prepareStatement("SELECT Id AS aulaId FROM aula");
             sAuleByGruppo = connection.prepareStatement(
                     "SELECT Id AS aulaId FROM aula WHERE Id_gruppo=?");
-            sAuleByNPreseRete = connection
-                    .prepareStatement("SELECT Id AS aulaId FROM aula WHERE n_prese_rete >=?");
-            sAuleByNPreseElettriche = connection
-                    .prepareStatement("SELECT Id AS aulaId FROM aula WHERE n_prese_elettriche >=?");
-            sAuleByCapienza = connection.prepareStatement("SELECT Id AS aulaId FROM aula WHERE capienza >=?");
-            sAuleByPiano = connection.prepareStatement("SELECT Id AS aulaId FROM aula WHERE piano =?");
-            sAuleByLuogo = connection.prepareStatement("SELECT Id AS aulaId FROM aula WHERE luogo =?");
-            sAuleByEdificio = connection.prepareStatement("SELECT Id AS aulaId FROM aula WHERE edificio =?");
             sResponsabili = connection.prepareStatement("SELECT DISTINCT email_responsabile FROM aula");
 
             iGruppo = connection.prepareStatement("INSERT INTO gruppo_aula (Id_aula, Id_gruppo) VALUES (?, ?)",
@@ -91,12 +78,6 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
             sAulaById.close();
             sAule.close();
             sAuleByGruppo.close();
-            sAuleByNPreseRete.close();
-            sAuleByNPreseElettriche.close();
-            sAuleByCapienza.close();
-            sAuleByPiano.close();
-            sAuleByLuogo.close();
-            sAuleByEdificio.close();
             sResponsabili.close();
             iGruppo.close();
             dGruppo.close();
@@ -159,58 +140,59 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
         return a;
     }
 
-    @Override
-    public Aula getAulaByNome(String nome) throws DataException {
-        Aula a = null;
-        try {
-            sAulaByNome.setString(1, nome);
-            try (ResultSet rs = sAulaByNome.executeQuery()) {
-                if (rs.next()) {
-                    a = createAula(rs);
-                    dataLayer.getCache().add(Aula.class, a);
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getAulaByNome() ", ex);
-        }
-        return a;
-    }
+    // @Override
+    // public Aula getAulaByNome(String nome) throws DataException {
+    // Aula a = null;
+    // try {
+    // sAulaByNome.setString(1, nome);
+    // try (ResultSet rs = sAulaByNome.executeQuery()) {
+    // if (rs.next()) {
+    // a = createAula(rs);
+    // dataLayer.getCache().add(Aula.class, a);
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getAulaByNome() ", ex);
+    // }
+    // return a;
+    // }
 
-    @Override
-    public Aula getAulaByPosizione(String edificio, String luogo, int piano, String nome) throws DataException {
-        Aula a = null;
-        try {
-            sAula.setString(1, nome);
-            sAula.setString(2, edificio);
-            sAula.setString(3, luogo);
-            sAula.setInt(4, piano);
-            try (ResultSet rs = sAula.executeQuery()) {
-                if (rs.next()) {
-                    a = createAula(rs);
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getAulaByPosizione() ", ex);
-        }
-        return a;
-    }
+    // @Override
+    // public Aula getAulaByPosizione(String edificio, String luogo, int piano,
+    // String nome) throws DataException {
+    // Aula a = null;
+    // try {
+    // sAula.setString(1, nome);
+    // sAula.setString(2, edificio);
+    // sAula.setString(3, luogo);
+    // sAula.setInt(4, piano);
+    // try (ResultSet rs = sAula.executeQuery()) {
+    // if (rs.next()) {
+    // a = createAula(rs);
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getAulaByPosizione() ", ex);
+    // }
+    // return a;
+    // }
 
-    @Override
-    public Aula getAulaByEvento(Evento evento) throws DataException {
-        Aula a = null;
-        try {
-            sAulaByEvento.setInt(1, evento.getKey());
+    // @Override
+    // public Aula getAulaByEvento(Evento evento) throws DataException {
+    // Aula a = null;
+    // try {
+    // sAulaByEvento.setInt(1, evento.getKey());
 
-            try (ResultSet rs = sAulaByEvento.executeQuery()) {
-                if (rs.next()) {
-                    a = createAula(rs);
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getAulaByEvento() ", ex);
-        }
-        return a;
-    }
+    // try (ResultSet rs = sAulaByEvento.executeQuery()) {
+    // if (rs.next()) {
+    // a = createAula(rs);
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getAulaByEvento() ", ex);
+    // }
+    // return a;
+    // }
 
     @Override
     public List<Aula> getListaAule() throws DataException {
@@ -225,118 +207,121 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
         return aule;
     }
 
-    @Override
-    public List<Aula> getListaAuleByGruppo(Gruppo gruppo) throws DataException {
-        List<Aula> aule = new ArrayList<>();
-        try {
-            sAuleByGruppo.setInt(1, gruppo.getKey());
-            try (ResultSet rs = sAuleByGruppo.executeQuery()) {
-                while (rs.next()) {
-                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getListaAuleByGruppo() ", ex);
-        }
-        return aule;
-    }
+    // @Override
+    // public List<Aula> getListaAuleByGruppo(Gruppo gruppo) throws DataException {
+    // List<Aula> aule = new ArrayList<>();
+    // try {
+    // sAuleByGruppo.setInt(1, gruppo.getKey());
+    // try (ResultSet rs = sAuleByGruppo.executeQuery()) {
+    // while (rs.next()) {
+    // aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getListaAuleByGruppo() ", ex);
+    // }
+    // return aule;
+    // }
 
-    @Override
-    public List<Aula> getListaAuleByPreseRete(int numeroPreseRete) throws DataException {
-        List<Aula> aule = new ArrayList<>();
-        try {
-            sAuleByNPreseElettriche.setInt(1, numeroPreseRete);
-            try (ResultSet rs = sAuleByNPreseElettriche.executeQuery()) {
-                while (rs.next()) {
-                    aule.add((Aula) getAulaById(rs.getInt("aulaID")));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getListaAuleByPreseRete() ", ex);
-        }
+    // @Override
+    // public List<Aula> getListaAuleByPreseRete(int numeroPreseRete) throws
+    // DataException {
+    // List<Aula> aule = new ArrayList<>();
+    // try {
+    // sAuleByNPreseElettriche.setInt(1, numeroPreseRete);
+    // try (ResultSet rs = sAuleByNPreseElettriche.executeQuery()) {
+    // while (rs.next()) {
+    // aule.add((Aula) getAulaById(rs.getInt("aulaID")));
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getListaAuleByPreseRete() ", ex);
+    // }
 
-        return aule;
-    }
+    // return aule;
+    // }
 
-    @Override
-    public List<Aula> getListaAuleByPreseElettriche(int numeroPreseElettriche) throws DataException {
-        List<Aula> aule = new ArrayList<>();
-        try {
-            sAuleByNPreseRete.setInt(1, numeroPreseElettriche);
-            try (ResultSet rs = sAuleByNPreseRete.executeQuery()) {
-                while (rs.next()) {
-                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getListaAuleByPreseElettriche() ", ex);
-        }
-        return aule;
-    }
+    // @Override
+    // public List<Aula> getListaAuleByPreseElettriche(int numeroPreseElettriche)
+    // throws DataException {
+    // List<Aula> aule = new ArrayList<>();
+    // try {
+    // sAuleByNPreseRete.setInt(1, numeroPreseElettriche);
+    // try (ResultSet rs = sAuleByNPreseRete.executeQuery()) {
+    // while (rs.next()) {
+    // aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getListaAuleByPreseElettriche() ", ex);
+    // }
+    // return aule;
+    // }
 
-    @Override
-    public List<Aula> getListaAuleByCapienza(int capienza) throws DataException {
-        List<Aula> aule = new ArrayList<>();
-        try {
-            sAuleByCapienza.setInt(1, capienza);
-            try (ResultSet rs = sAuleByCapienza.executeQuery()) {
-                while (rs.next()) {
-                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getListaAuleByCapienza() ", ex);
-        }
-        return aule;
-    }
+    // @Override
+    // public List<Aula> getListaAuleByCapienza(int capienza) throws DataException {
+    // List<Aula> aule = new ArrayList<>();
+    // try {
+    // sAuleByCapienza.setInt(1, capienza);
+    // try (ResultSet rs = sAuleByCapienza.executeQuery()) {
+    // while (rs.next()) {
+    // aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getListaAuleByCapienza() ", ex);
+    // }
+    // return aule;
+    // }
 
-    @Override
-    public List<Aula> getListaAuleByPiano(int piano) throws DataException {
-        List<Aula> aule = new ArrayList<Aula>();
-        try {
-            sAuleByPiano.setInt(1, piano);
-            try (ResultSet rs = sAuleByPiano.executeQuery()) {
-                while (rs.next()) {
-                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getListaAuleByPiano() ", ex);
-        }
-        return aule;
-    }
+    // @Override
+    // public List<Aula> getListaAuleByPiano(int piano) throws DataException {
+    // List<Aula> aule = new ArrayList<Aula>();
+    // try {
+    // sAuleByPiano.setInt(1, piano);
+    // try (ResultSet rs = sAuleByPiano.executeQuery()) {
+    // while (rs.next()) {
+    // aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getListaAuleByPiano() ", ex);
+    // }
+    // return aule;
+    // }
 
-    @Override
-    public List<Aula> getListaAuleByLuogo(String luogo) throws DataException {
-        List<Aula> aule = new ArrayList<Aula>();
-        try {
-            sAuleByLuogo.setString(1, luogo);
-            try (ResultSet rs = sAuleByLuogo.executeQuery()) {
-                while (rs.next()) {
-                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getListaAuleByLuogo() ", ex);
-        }
-        return aule;
-    }
+    // @Override
+    // public List<Aula> getListaAuleByLuogo(String luogo) throws DataException {
+    // List<Aula> aule = new ArrayList<Aula>();
+    // try {
+    // sAuleByLuogo.setString(1, luogo);
+    // try (ResultSet rs = sAuleByLuogo.executeQuery()) {
+    // while (rs.next()) {
+    // aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getListaAuleByLuogo() ", ex);
+    // }
+    // return aule;
+    // }
 
-    @Override
-    public List<Aula> getListaAuleByEdificio(String edificio) throws DataException {
-        List<Aula> aule = new ArrayList<Aula>();
-        try {
-            sAuleByEdificio.setString(1, edificio);
-            try (ResultSet rs = sAuleByEdificio.executeQuery()) {
-                while (rs.next()) {
-                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Errore in getListaAuleByEdificio() ", ex);
-        }
-        return aule;
-    }
+    // @Override
+    // public List<Aula> getListaAuleByEdificio(String edificio) throws
+    // DataException {
+    // List<Aula> aule = new ArrayList<Aula>();
+    // try {
+    // sAuleByEdificio.setString(1, edificio);
+    // try (ResultSet rs = sAuleByEdificio.executeQuery()) {
+    // while (rs.next()) {
+    // aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+    // }
+    // }
+    // } catch (SQLException ex) {
+    // throw new DataException("Errore in getListaAuleByEdificio() ", ex);
+    // }
+    // return aule;
+    // }
 
     @Override
     public List<String> getListaResponsabili() throws DataException {

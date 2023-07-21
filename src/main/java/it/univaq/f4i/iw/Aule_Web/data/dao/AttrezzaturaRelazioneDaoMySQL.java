@@ -153,22 +153,6 @@ public class AttrezzaturaRelazioneDaoMySQL extends DAO implements AttrezzaturaRe
         return listaAttrezzatura;
     }
 
-    @Override
-    public List<Attrezzatura_Relazione> getListaAulaByAttrezzatura(int attrezzatura_key) throws DataException {
-        List<Attrezzatura_Relazione> listaAula = new ArrayList<Attrezzatura_Relazione>();
-        try {
-            List<Attrezzatura_Relazione> listaCompleta = getListaAttrezzaturaRelazione();
-            for (int i = 0; i < listaCompleta.size(); i++) {
-                if (listaCompleta.get(i).getAttrezzo().getKey() == attrezzatura_key) {
-                    listaAula.add(listaCompleta.get(i));
-                }
-            }
-        } catch (Exception e) {
-            throw new DataException("Errore in getListaAttrezzaturaByAula() ", e);
-        }
-        return listaAula;
-    }
-
     // funziona sia da insert che da update
     @Override
     public void storeAttrezzaturaRelazione(Attrezzatura_Relazione attrezzatura_relazione) throws DataException {

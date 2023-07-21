@@ -28,6 +28,4 @@ public interface AttrezzaturaRelazioneDao {
 
     List<Attrezzatura_Relazione> getListaAttrezzaturaByAula(Aula aula) throws DataException;
 
-    List<Attrezzatura_Relazione> getListaAulaByAttrezzatura(int attrezzatura_key) throws DataException;
-
 }
