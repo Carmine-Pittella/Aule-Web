@@ -207,21 +207,21 @@ public class AulaDaoMySQL extends DAO implements AulaDao {
         return aule;
     }
 
-    // @Override
-    // public List<Aula> getListaAuleByGruppo(Gruppo gruppo) throws DataException {
-    // List<Aula> aule = new ArrayList<>();
-    // try {
-    // sAuleByGruppo.setInt(1, gruppo.getKey());
-    // try (ResultSet rs = sAuleByGruppo.executeQuery()) {
-    // while (rs.next()) {
-    // aule.add((Aula) getAulaById(rs.getInt("aulaId")));
-    // }
-    // }
-    // } catch (SQLException ex) {
-    // throw new DataException("Errore in getListaAuleByGruppo() ", ex);
-    // }
-    // return aule;
-    // }
+    @Override
+    public List<Aula> getListaAuleByGruppo(Gruppo gruppo) throws DataException {
+        List<Aula> aule = new ArrayList<>();
+        try {
+            sAuleByGruppo.setInt(1, gruppo.getKey());
+            try (ResultSet rs = sAuleByGruppo.executeQuery()) {
+                while (rs.next()) {
+                    aule.add((Aula) getAulaById(rs.getInt("aulaId")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Errore in getListaAuleByGruppo() ", ex);
+        }
+        return aule;
+    }
 
     // @Override
     // public List<Aula> getListaAuleByPreseRete(int numeroPreseRete) throws

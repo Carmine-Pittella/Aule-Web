@@ -49,14 +49,19 @@ public class HomePageServlet extends AuleWebBaseController {
 
             // aule
             List<Aula> aule;
-            aule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().getListaAule();
+            if (request.getParameter("gruppo") != null) {
+                Gruppo gruppo = ((AuleWebDataLayer) request.getAttribute("datalayer")).getGruppoDao()
+                        .getGruppoById(Integer.parseInt(request.getParameter("gruppo")));
+                aule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().getListaAuleByGruppo(gruppo);
+            } else {
+                aule = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao().getListaAule();
+            }
             request.setAttribute("aule", aule);
 
             // corsi
             List<String> corsi;
             corsi = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao().getCorsi();
             request.setAttribute("corsi", corsi);
-
         } catch (Exception e) {
             handleError("Data access exception: " + e.getMessage(), request, response);
         }

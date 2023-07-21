@@ -27,7 +27,7 @@ public interface AulaDao {
 
     List<Aula> getListaAule() throws DataException;
 
-    // List<Aula> getListaAuleByGruppo(Gruppo gruppo) throws DataException;
+    List<Aula> getListaAuleByGruppo(Gruppo gruppo) throws DataException;
 
     // List<Aula> getListaAuleByPreseRete(int numeroPreseRete) throws DataException;
 
