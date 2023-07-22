@@ -1,8 +1,6 @@
-
 -- amministratore
 INSERT INTO `amministratore` (`id`, `nome`, `cognome`, `email`, `password`, `version`) VALUES
 (1, 'Carmine', 'Pittella', 'admin@email.it', 'admin', 1);
-
 
 -- gruppo
 INSERT INTO `gruppo` (`id`, `nome`, `descrizione`, `version`) VALUES
@@ -13,7 +11,6 @@ INSERT INTO `gruppo` (`id`, `nome`, `descrizione`, `version`) VALUES
 (5, 'DICEAA', 'Dipartimento di Ingegneria Civile, Edile - Architettura e Ambientale', 1),
 (6, 'POLO DI COPPITO', 'Polo di coppito', 1),
 (7, 'POLO DI ROIO', 'polo di roio', 1);
-
 
 -- aula
 INSERT INTO `aula` (`id`, `nome`, `luogo`, `edificio`, `piano`, `capienza`, `email_responsabile`, `n_prese_rete`, `n_prese_elettriche`, `note`, `id_gruppo`, `version`) VALUES
@@ -51,21 +48,12 @@ INSERT INTO `attrezzatura` (`id`, `nome_attrezzo`, `descrizione`, `version`) VAL
 (8, 'Lavagna Luminosa', 'Lavagna multimediale touchscreen', 1),
 (9, 'WiFi', 'Connessione a internet', 1);
 
-
--- -- attrezzatura relazione
-
-
-
 -- evento
 INSERT INTO `evento` (`id`, `data_inizio`, `data_fine`, `nome`, `descrizione`, `email_responsabile`, `id_aula`, `tipologia`, `nome_corso`, `tipo_ricorrenza`, `data_fine_ricorrenza`, `version`) VALUES
-(1,'2023-07-13 14:30:00','2023-07-13 16:30:00','What is a database?',"progettazione dei database",'resp2@resp.uni.it',2,'SEMINARIO',null,null,null,1),
-(2,'2023-07-15 09:00:00','2023-07-15 18:00:00','Lauree di Informatica',"prima sessione di laurea",'resp2@resp.uni.it',5,'LAUREE',null,'GIORNALIERA','2023-07-20',1),
+(1,'2023-07-27 14:30:00','2023-07-27 16:30:00','What is a database?',"progettazione dei database",'resp2@resp.uni.it',2,'SEMINARIO',null,null,null,1),
+(2,'2023-07-28 09:00:00','2023-07-28 18:00:00','Lauree di Informatica',"prima sessione di laurea",'resp2@resp.uni.it',5,'LAUREE',null,'GIORNALIERA','2023-08-02',1),
 (3,'2023-09-11 09:00:00','2023-09-11 18:00:00','Lauree di Informatica',"prima sessione di laurea",'resp3@resp.uni.it',5,'LAUREE',null,'GIORNALIERA','2023-09-13',1),
 (4,'2023-12-12 09:00:00','2023-12-12 18:00:00','Lauree di Informatica',"prima sessione di laurea",'resp4@resp.uni.it',5,'LAUREE',null,'GIORNALIERA','2023-12-15',1),
-(5,'2023-07-16 09:00:00','2023-07-16 11:00:00','Lauree di Ingegneria',"primo appello di laurea",'resp1@resp.uni.it',18,'LAUREE',null,'GIORNALIERA','2023-07-21',1),
-(6,'2023-07-17 09:00:00','2023-07-17 11:00:00','Lauree di Medicina',"primo appello di laurea",'resp2@resp.uni.it',12,'LAUREE',null,'GIORNALIERA','2023-07-22',1);
-
-
-
--- evento ricorrente
+(5,'2023-08-16 09:00:00','2023-08-16 11:00:00','Lauree di Ingegneria',"primo appello di laurea",'resp1@resp.uni.it',18,'LAUREE',null,'GIORNALIERA','2023-08-21',1),
+(6,'2023-08-17 09:00:00','2023-08-17 11:00:00','Lauree di Medicina',"primo appello di laurea",'resp2@resp.uni.it',12,'LAUREE',null,'GIORNALIERA','2023-08-22',1);
 

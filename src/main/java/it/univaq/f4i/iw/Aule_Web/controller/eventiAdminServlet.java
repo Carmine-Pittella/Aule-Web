@@ -97,14 +97,17 @@ public class eventiAdminServlet extends AuleWebBaseController {
             } else {
 
                 Evento evento = new EventoImpl();
-                if (request.getParameter("ID") != null) {
+                // if (request.getParameter("ID") != null) {
 
-                    Evento tmp = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao()
-                            .getEventoById(Integer.parseInt(request.getParameter("ID").toString()));
+                // Evento tmp = ((AuleWebDataLayer)
+                // request.getAttribute("datalayer")).getEventoDao()
+                // .getEventoById(Integer.parseInt(request.getParameter("ID").toString()));
 
-                    evento.setKey(Integer.parseInt(request.getParameter("ID")));
-                    evento.setVersion(tmp.getVersion());
-                }
+                // ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao().sto
+
+                // evento.setKey(Integer.parseInt(request.getParameter("ID")));
+                // evento.setVersion(tmp.getVersion());
+                // }
 
                 Aula aula = ((AuleWebDataLayer) request.getAttribute("datalayer")).getAulaDao()
                         .getAulaById(Integer.parseInt(request.getParameter("selectAula")));
@@ -136,10 +139,14 @@ public class eventiAdminServlet extends AuleWebBaseController {
 
     private void action_elimina(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-
+            int idEvento;
+            if (request.getParameter("delete") != null) {
+                idEvento = Integer.parseInt(request.getParameter("delete").toString());
+            } else {
+                idEvento = Integer.parseInt(request.getParameter("ID").toString());
+            }
             Evento tmp = ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao()
-                    .getEventoById(Integer.parseInt(request.getParameter("delete").toString()));
-
+                    .getEventoById(idEvento);
             ((AuleWebDataLayer) request.getAttribute("datalayer")).getEventoDao().deleteEvento(tmp);
             response.sendRedirect("eventiAdmin");
         } catch (DataException | IOException e) {
